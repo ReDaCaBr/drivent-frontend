@@ -1,8 +1,15 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
+import useEnrollment from '../../hooks/api/useEnrollment';
+import { useEffect, useState } from 'react';
 
 export default function TicketAndPayment() {
-  return (
+  const [renderization, setRenderization] = useState(<></>);
+  const { enrollment } = useEnrollment();
+  const [isRemote, setIsRemote] = useState(false);
+  const [includesHotel, setIncludesHotel] = useState(false);
+
+  const noEnrollmentRenderization = (
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
       <NoEnrollmentBox>
@@ -12,6 +19,45 @@ export default function TicketAndPayment() {
       </NoEnrollmentBox>
     </>
   );
+
+  const noIsRemoteChoiceRenderization = (
+    <>
+      <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
+      <span>Yes it is working :p</span>
+    </>
+  );
+
+  const noIncludesHotelChoiceRenderization = (
+    <>
+      <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
+      <span>hotel</span>
+    </>
+  );
+
+  const paymentRenderization = (
+    <>
+      <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
+      <span>pagamentos</span>
+    </>
+  );
+
+  useEffect(() => {
+    renderizationHandler(enrollment);
+  }, [enrollment]);
+
+  function renderizationHandler(enrollment) {
+    if (!enrollment) {
+      setRenderization(noEnrollmentRenderization);
+    } else if (!isRemote) {
+      setRenderization(noIsRemoteChoiceRenderization);
+    } else if (!includesHotel) {
+      setRenderization(noIncludesHotelChoiceRenderization);
+    } else {
+      setRenderization(paymentRenderization);
+    }
+  }
+
+  return renderization;
 }
 
 const StyledTypography = styled(Typography)`
