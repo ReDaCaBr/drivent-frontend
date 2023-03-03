@@ -2,11 +2,13 @@ import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import useEnrollment from '../../hooks/api/useEnrollment';
 import { useEffect, useState } from 'react';
+import TicketsAvailable from '../Payments/TicketsAvailable.js';
+import HotelOptions from '../Payments/HotelOptions';
 
 export default function TicketAndPayment() {
   const [renderization, setRenderization] = useState(<></>);
   const { enrollment } = useEnrollment();
-  const [isRemote, setIsRemote] = useState(false);
+  const [isRemote, setIsRemote] = useState(true);
   const [includesHotel, setIncludesHotel] = useState(false);
 
   const noEnrollmentRenderization = (
@@ -23,14 +25,15 @@ export default function TicketAndPayment() {
   const noIsRemoteChoiceRenderization = (
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
-      <span>Yes it is working :p</span>
+      <TicketsAvailable />
     </>
   );
 
   const noIncludesHotelChoiceRenderization = (
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
-      <span>hotel</span>
+      <TicketsAvailable />
+      <HotelOptions />
     </>
   );
 
