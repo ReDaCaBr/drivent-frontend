@@ -64,9 +64,11 @@ export default function TicketAndPayment() {
       {enrollment ? (
         <TicketsAvailable />
       ) : (
-        <NoEnrollmentText>
-          Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso
-        </NoEnrollmentText>
+        <NoEnrollmentBox>
+          <NoEnrollmentText>
+            Você precisa completar sua inscrição antes de prosseguir pra escolha de ingresso
+          </NoEnrollmentText>
+        </NoEnrollmentBox>
       )}
     </Container>
   );
@@ -87,9 +89,9 @@ export const PageTitle = styled.div`
   margin-bottom: 30px;
 `;
 
-const StyledTypography = styled(Typography)`
-  margin-bottom: 20px !important;
-`;
+// const StyledTypography = styled(Typography)`
+//   margin-bottom: 20px !important;
+// `;
 
 const NoEnrollmentBox = styled.div`
   width: 388px;
