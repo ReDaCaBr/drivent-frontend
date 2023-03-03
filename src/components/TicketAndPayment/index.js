@@ -4,12 +4,14 @@ import useEnrollment from '../../hooks/api/useEnrollment';
 import { useEffect, useState } from 'react';
 import TicketsAvailable from '../Payments/TicketsAvailable.js';
 import HotelOptions from '../Payments/HotelOptions';
+import OrderSummary from '../Payments/OrderSummary';
 
 export default function TicketAndPayment() {
   const [renderization, setRenderization] = useState(<></>);
   const { enrollment } = useEnrollment();
   const [isRemote, setIsRemote] = useState(true);
   const [includesHotel, setIncludesHotel] = useState(false);
+  const [total, setTotal] = useState(0);
 
   const noEnrollmentRenderization = (
     <>
@@ -34,6 +36,7 @@ export default function TicketAndPayment() {
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
       <TicketsAvailable />
       <HotelOptions />
+      <OrderSummary total={total} />
     </>
   );
 
