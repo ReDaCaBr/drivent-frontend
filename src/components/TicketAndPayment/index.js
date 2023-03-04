@@ -5,12 +5,13 @@ import { useEffect, useState } from 'react';
 import TicketsAvailable from '../Payments/TicketsAvailable.js';
 import HotelOptions from '../Payments/HotelOptions';
 import OrderSummary from '../Payments/OrderSummary';
+import CreditCardSection from '../Payments/creditCard';
 
 export default function TicketAndPayment() {
   const [renderization, setRenderization] = useState(<></>);
   const { enrollment } = useEnrollment();
   const [isRemote, setIsRemote] = useState(true);
-  const [includesHotel, setIncludesHotel] = useState(false);
+  const [includesHotel, setIncludesHotel] = useState(true);
   const [total, setTotal] = useState(0);
 
   const noEnrollmentRenderization = (
@@ -44,6 +45,7 @@ export default function TicketAndPayment() {
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
       <span>pagamentos</span>
+      <CreditCardSection />
     </>
   );
 
