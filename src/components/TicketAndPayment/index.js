@@ -6,13 +6,13 @@ import TicketsAvailable from '../Payments/TicketsAvailable.js';
 import HotelOptions from '../Payments/HotelOptions';
 import ChosenTicket from '../Payments/ChosenTicket';
 import PaymentConfirmed from '../Payments/PaymentConfirmed';
+import CreditCardSection from '../Payments/creditCard';
 
 export default function TicketAndPayment() {
   const [renderization, setRenderization] = useState(<></>);
   const { enrollment } = useEnrollment();
   const [isRemote, setIsRemote] = useState(true);
-  const [includesHotel, setIncludesHotel] = useState(false);
-  //const [summary, setSummary] = useState(false);
+  const [includesHotel, setIncludesHotel] = useState(true);
 
   const noEnrollmentRenderization = (
     <>
@@ -46,13 +46,14 @@ export default function TicketAndPayment() {
       <ChosenTicket />
     </>
   );
-
-  /*const paymentConfirm = (
+ 
+  const creditCard = (
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
-      <PaymentConfirmed />
+      <span>Pagamento</span>
+      <CreditCardSection/>
     </>
-  );*/
+  );
 
   useEffect(() => {
     renderizationHandler(enrollment);

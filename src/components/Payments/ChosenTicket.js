@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ticketsType } from '../../assets/constants/tickets.js';
 import BoxChoice from './BoxChoice.js';
 import useTicket from '../../hooks/api/useTicket';
+import PaymentConfirmed from './PaymentConfirmed.js';
+import creditCard from './creditCard.js';
 
 export default function ChosenTicket() {
-  /*const { ticket } = useTicket();
+  const { ticket } = useTicket();
 
   const [ticketPrice, setTicketPrice] = useState(0);
   const [ticketType, setTicketType] = useState('');
-
   const [ticketId, setTicketId] = useState(0);
 
   useEffect(() => {
     if(ticket) {
-      setTicketId(2);
       setTicketPrice(ticket.TicketPrice.price);
+      setTicketId(ticket.id);
 
       if (ticket.TicketType.isRemote === true) {
         setTicketType('Online');
@@ -26,7 +26,7 @@ export default function ChosenTicket() {
         setTicketType('Presencial');
       }
     }
-  }, []);*/
+  }, [ticket, ticketPrice]);
 
   return (
     <>
@@ -34,10 +34,10 @@ export default function ChosenTicket() {
         <PageSubTitle>Ingresso escolhido</PageSubTitle>
         <TicketSummaryBox>
           <TicketType>
-            assa
+            {ticketType}
           </TicketType>
           <TicketPrice>
-            sas
+            {ticketPrice}
           </TicketPrice>
         </TicketSummaryBox>
       </Container>

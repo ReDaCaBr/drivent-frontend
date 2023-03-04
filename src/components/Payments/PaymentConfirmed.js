@@ -1,7 +1,4 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import { ticketsType } from '../../assets/constants/tickets.js';
-import BoxChoice from './BoxChoice.js';
 import { IoCheckmarkCircleSharp } from 'react-icons/io5';
 
 export default function PaymentConfirmed() {
