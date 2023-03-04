@@ -61,7 +61,7 @@ export default function TicketAndPayment() {
     if (!enrollment) {
       setRenderization(noEnrollmentRenderization);
     } else if (!isRemote) {
-      setRenderization(creditCard);
+      setRenderization(noIsRemoteChoiceRenderization);
     } else if (!includesHotel) {
       setRenderization(noIncludesHotelChoiceRenderization);
     } else {
