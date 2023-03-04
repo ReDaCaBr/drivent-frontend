@@ -28,6 +28,7 @@ export default function TicketAndPayment() {
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
       <TicketsAvailable />
+      <OrderSummary total={total} />
     </>
   );
 
@@ -36,7 +37,6 @@ export default function TicketAndPayment() {
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
       <TicketsAvailable />
       <HotelOptions />
-      <OrderSummary total={total} />
     </>
   );
 
