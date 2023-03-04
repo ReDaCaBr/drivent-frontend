@@ -4,6 +4,7 @@ import useEnrollment from '../../hooks/api/useEnrollment';
 import { useEffect, useState } from 'react';
 import TicketsAvailable from '../Payments/TicketsAvailable.js';
 import HotelOptions from '../Payments/HotelOptions';
+import CreditCardSection from '../Payments/creditCard';
 
 export default function TicketAndPayment() {
   const [renderization, setRenderization] = useState(<></>);
@@ -41,6 +42,14 @@ export default function TicketAndPayment() {
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
       <span>pagamentos</span>
+    </>
+  );
+
+  const creditCard = (
+    <>
+      <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
+      <span>Pagamento</span>
+      <CreditCardSection/>
     </>
   );
 
