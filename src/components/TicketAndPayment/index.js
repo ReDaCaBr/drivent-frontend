@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import useEnrollment from '../../hooks/api/useEnrollment';
 import { useEffect, useState } from 'react';
+import CreditCardSection from './creditCard';
 
 export default function TicketAndPayment() {
   const [renderization, setRenderization] = useState(<></>);
@@ -41,6 +42,14 @@ export default function TicketAndPayment() {
     </>
   );
 
+  const creditCard = (
+    <>
+      <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
+      <span>Pagamento</span>
+      <CreditCardSection/>
+    </>
+  );
+
   useEffect(() => {
     renderizationHandler(enrollment);
   }, [enrollment]);
@@ -49,7 +58,7 @@ export default function TicketAndPayment() {
     if (!enrollment) {
       setRenderization(noEnrollmentRenderization);
     } else if (!isRemote) {
-      setRenderization(noIsRemoteChoiceRenderization);
+      setRenderization(creditCard);
     } else if (!includesHotel) {
       setRenderization(noIncludesHotelChoiceRenderization);
     } else {
