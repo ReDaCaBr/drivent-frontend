@@ -6,6 +6,7 @@ import TicketsAvailable from '../Payments/TicketsAvailable.js';
 import HotelOptions from '../Payments/HotelOptions';
 import ChosenTicket from '../Payments/ChosenTicket';
 import PaymentConfirmed from '../Payments/PaymentConfirmed';
+import CreditCardSection from '../Payments/creditCard';
 
 export default function TicketAndPayment() {
   const [renderization, setRenderization] = useState(<></>);
@@ -53,6 +54,13 @@ export default function TicketAndPayment() {
       <PaymentConfirmed />
     </>
   );*/
+  const creditCard = (
+    <>
+      <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
+      <span>Pagamento</span>
+      <CreditCardSection/>
+    </>
+  );
 
   useEffect(() => {
     renderizationHandler(enrollment);
