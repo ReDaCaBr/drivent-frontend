@@ -6,7 +6,7 @@ import { useState } from 'react';
 import OrderSummary from './OrderSummary.js';
 import { useEffect } from 'react';
 
-export default function HotelOptions() {
+export default function HotelOptions({ setIncludesHotel }) {
   const [selectedBox, setSelectedBox] = useState([]);
   const [total, setTotal] = useState(0);
   const [showOrderSummary, setShowOrderSummary] = useState(false);
@@ -24,9 +24,10 @@ export default function HotelOptions() {
     setTotal(choice.price);
   }
 
-  // function onClickHandler() {
-  //   setShowOrderSummary(false);
-  // }
+  function confirmationHandler() {
+    setShowOrderSummary(false);
+    setIncludesHotel(true);
+  }
 
   useEffect(() => {
     if (selectedBox.length !== 0) {
@@ -61,7 +62,7 @@ export default function HotelOptions() {
             );
           })}
         </div>
-        {showOrderSummary ? <OrderSummary total={total} /> : null}
+        {showOrderSummary ? <OrderSummary total={total} onClick={() => confirmationHandler()} /> : null}
       </Container>
     </>
   );
