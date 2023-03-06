@@ -64,16 +64,8 @@ export default function TicketAndPayment() {
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
       <ChosenTicket />
-      <CreditCardSection setPaymentFinished={setPaymentFinished} />
     </>
   );
-
-  /*const paymentConfirm = (
-    <>
-      <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
-      <PaymentConfirmed />
-    </>
-  );*/
 
   useEffect(() => {
     renderizationHandler(enrollment);

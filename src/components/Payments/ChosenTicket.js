@@ -1,32 +1,39 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ticketsType } from '../../assets/constants/tickets.js';
 import BoxChoice from './BoxChoice.js';
 import useTicket from '../../hooks/api/useTicket';
+import CreditCardSection from './CreditCard.js';
+import PaymentConfirmed from './PaymentConfirmed.js';
 
 export default function ChosenTicket() {
-  /*const { ticket } = useTicket();
-
+  const { ticket } = useTicket();
+  console.log(ticket);
   const [ticketPrice, setTicketPrice] = useState(0);
   const [ticketType, setTicketType] = useState('');
-
+  const [paymentFinished, setPaymentFinished] = useState(false);
   const [ticketId, setTicketId] = useState(0);
 
   useEffect(() => {
     if(ticket) {
-      setTicketId(2);
-      setTicketPrice(ticket.TicketPrice.price);
+      setTicketId(ticket.id);
+      setTicketPrice(ticket.TicketType.price);
 
       if (ticket.TicketType.isRemote === true) {
-        setTicketType('Online');
+        setTicketType(ticket.TicketType.name);
       } else if (ticket.TicketType.isRemote === false && ticket.TicketType.includesHotel === true) {
-        setTicketType('Presencial + Hotel');
+        setTicketType(ticket.TicketType.name);
         setTicketPrice(ticket.TicketType.price);
       } else {
-        setTicketType('Presencial');
+        setTicketType(ticket.TicketType.name);
+      }
+
+      if (ticket.TicketType.status === 'PAID') {
+        setPaymentFinished(true);
+      } else {
+        setPaymentFinished(false);
       }
     }
-  }, []);*/
+  }, [ticket, ticketPrice]);
 
   return (
     <>
@@ -34,12 +41,13 @@ export default function ChosenTicket() {
         <PageSubTitle>Ingresso escolhido</PageSubTitle>
         <TicketSummaryBox>
           <TicketType>
-            assa
+            {ticketPrice}
           </TicketType>
           <TicketPrice>
-            sas
+            {ticketType}
           </TicketPrice>
         </TicketSummaryBox>
+        {paymentFinished === false ? <CreditCardSection setPaymentFinished={setPaymentFinished}/> : <PaymentConfirmed />}
       </Container>
     </>
   );
