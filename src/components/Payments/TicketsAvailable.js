@@ -6,10 +6,12 @@ import { ticketsType } from '../../assets/constants/tickets.js';
 import OrderSummary from './OrderSummary.js';
 import BoxChoice from './BoxChoice.js';
 
-export default function TicketsAvailable({ setIsRemote }) {
+export default function TicketsAvailable({ setIsRemote, setIncludesHotel }) {
   const [selectedBox, setSelectedBox] = useState([]);
   const [total, setTotal] = useState(0);
   const [showOrderSummary, setShowOrderSummary] = useState(false);
+
+  console.log(showOrderSummary);
 
   function backgroundColorHandler(ticket) {
     let newSelectedBox = [];
@@ -26,12 +28,18 @@ export default function TicketsAvailable({ setIsRemote }) {
 
   function confirmationHandler() {
     setIsRemote(true);
+    setIncludesHotel(true);
     setShowOrderSummary(false);
   }
   useEffect(() => {
-    if (selectedBox.length !== 0) {
+    if (selectedBox[0] === 2) {
+      setIsRemote(false);
       setShowOrderSummary(true);
+    } else if (selectedBox[0] === 1) {
+      setIsRemote(true);
+      setShowOrderSummary(false);
     } else {
+      setIsRemote(false);
       setShowOrderSummary(false);
     }
   }, [selectedBox]);
