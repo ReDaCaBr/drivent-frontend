@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import useEnrollment from '../../hooks/api/useEnrollment';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import TicketsAvailable from '../Payments/TicketsAvailable.js';
 import HotelOptions from '../Payments/HotelOptions';
 import OrderSummary from '../Payments/OrderSummary';
 import ChosenTicket from '../Payments/ChosenTicket';
 import PaymentConfirmed from '../Payments/PaymentConfirmed';
 import CreditCardSection from '../Payments/CreditCard';
+import useTicketTypes from '../../hooks/api/useTicketTypes';
+import useTicket from '../../hooks/api/useTicket';
+import useToken from '../../hooks/useToken';
+import UserContext from '../../contexts/UserContext';
 
 export default function TicketAndPayment() {
   const [renderization, setRenderization] = useState(<></>);
@@ -15,6 +19,10 @@ export default function TicketAndPayment() {
   const [isRemote, setIsRemote] = useState(false);
   const [includesHotel, setIncludesHotel] = useState(false);
   const [total, setTotal] = useState(0);
+  const [paymentFinished, setPaymentFinished] = useState(false);
+  const { ticketTypes } = useTicketTypes();
+  const { userData } = useContext(UserContext);
+  const token = userData.token.toString();
 
   const noEnrollmentRenderization = (
     <>
@@ -30,28 +38,38 @@ export default function TicketAndPayment() {
   const noIsRemoteChoiceRenderization = (
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
-      <TicketsAvailable setIsRemote={setIsRemote} />
+      <TicketsAvailable
+        setIsRemote={setIsRemote}
+        setIncludesHotel={setIncludesHotel}
+        token={token}
+        ticketTypes={ticketTypes}
+      />
     </>
   );
 
   const noIncludesHotelChoiceRenderization = (
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
-      <TicketsAvailable setIsRemote={setIsRemote} />
-      <HotelOptions setIncludesHotel={setIncludesHotel} />
+      <TicketsAvailable
+        setIsRemote={setIsRemote}
+        setIncludesHotel={setIncludesHotel}
+        token={token}
+        ticketTypes={ticketTypes}
+      />
+      <HotelOptions setIncludesHotel={setIncludesHotel} token={token} ticketTypes={ticketTypes} />
     </>
   );
 
   const paymentRenderization = (
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
-      <ChosenTicket/>
+      <ChosenTicket />
     </>
   );
 
   useEffect(() => {
     renderizationHandler(enrollment);
-  }, [enrollment, isRemote, includesHotel]);
+  }, [enrollment, isRemote, includesHotel, ticketTypes]);
 
   function renderizationHandler(enrollment) {
     if (!enrollment) {
@@ -65,7 +83,7 @@ export default function TicketAndPayment() {
     }
   }
 
-  return renderization;
+  return ticketTypes && renderization;
 }
 
 const StyledTypography = styled(Typography)`

@@ -5,11 +5,13 @@ import { softYellow, white } from '../../assets/constants/colors.js';
 import { useState } from 'react';
 import OrderSummary from './OrderSummary.js';
 import { useEffect } from 'react';
+import { postTicket } from '../../services/ticketApi.js';
 
-export default function HotelOptions({ setIncludesHotel }) {
+export default function HotelOptions({ setIncludesHotel, token, ticketTypes }) {
   const [selectedBox, setSelectedBox] = useState([]);
   const [total, setTotal] = useState(0);
   const [showOrderSummary, setShowOrderSummary] = useState(false);
+  const [choosenTicket, setChoosenTicket] = useState();
 
   function backgroundColorHandler(choice) {
     let newSelectedBox = [];
@@ -17,16 +19,25 @@ export default function HotelOptions({ setIncludesHotel }) {
       newSelectedBox = [choice.id];
     }
     setSelectedBox(newSelectedBox);
+    setChoosenTicket(choice);
     totalHandler(choice);
   }
 
   function totalHandler(choice) {
-    setTotal(choice.price);
+    setTotal(`R$ ${250 + Number(choice.price.replace(/[^0-9]/g, ''))}`);
   }
 
-  function confirmationHandler() {
-    setShowOrderSummary(false);
-    setIncludesHotel(true);
+  function createTicket(choosenTicket) {
+    const ticketTypeUsed = ticketTypes.filter(
+      (ticket) => Number(ticket.price) === Number(choosenTicket.price.replace(/[^0-9]/g, '')) + 250
+    );
+    const body = {
+      ticketTypeId: ticketTypeUsed[0].id,
+    };
+    postTicket(body, token).then(() => {
+      setIncludesHotel(true);
+      setShowOrderSummary(false);
+    });
   }
 
   useEffect(() => {
@@ -62,7 +73,7 @@ export default function HotelOptions({ setIncludesHotel }) {
             );
           })}
         </div>
-        {showOrderSummary ? <OrderSummary total={total} onClick={() => confirmationHandler()} /> : null}
+        {showOrderSummary ? <OrderSummary total={total} onClick={() => createTicket(choosenTicket)} /> : null}
       </Container>
     </>
   );

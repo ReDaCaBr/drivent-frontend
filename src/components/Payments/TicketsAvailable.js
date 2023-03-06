@@ -5,11 +5,13 @@ import { softYellow, white } from '../../assets/constants/colors.js';
 import { ticketsType } from '../../assets/constants/tickets.js';
 import OrderSummary from './OrderSummary.js';
 import BoxChoice from './BoxChoice.js';
+import { postTicket } from '../../services/ticketApi.js';
 
-export default function TicketsAvailable({ setIsRemote }) {
+export default function TicketsAvailable({ setIsRemote, setIncludesHotel, token, ticketTypes }) {
   const [selectedBox, setSelectedBox] = useState([]);
   const [total, setTotal] = useState(0);
   const [showOrderSummary, setShowOrderSummary] = useState(false);
+  const [choosenTicket, setChoosenTicket] = useState();
 
   function backgroundColorHandler(ticket) {
     let newSelectedBox = [];
@@ -17,6 +19,7 @@ export default function TicketsAvailable({ setIsRemote }) {
       newSelectedBox = [ticket.id];
     }
     setSelectedBox(newSelectedBox);
+    setChoosenTicket(ticket);
     totalHandler(ticket);
   }
 
@@ -24,14 +27,29 @@ export default function TicketsAvailable({ setIsRemote }) {
     setTotal(choice.price);
   }
 
-  function confirmationHandler() {
-    setIsRemote(true);
-    setShowOrderSummary(false);
+  function createTicket(choosenTicket) {
+    const ticketTypeUsed = ticketTypes.filter(
+      (ticket) => Number(ticket.price) === Number(choosenTicket.price.replace(/[^0-9]/g, ''))
+    );
+    const body = {
+      ticketTypeId: ticketTypeUsed[0].id,
+    };
+    postTicket(body, token).then(() => {
+      setIsRemote(true);
+      setIncludesHotel(true);
+      setShowOrderSummary(false);
+    });
   }
+
   useEffect(() => {
-    if (selectedBox.length !== 0) {
+    if (selectedBox[0] === 2) {
+      setIsRemote(false);
       setShowOrderSummary(true);
+    } else if (selectedBox[0] === 1) {
+      setIsRemote(true);
+      setShowOrderSummary(false);
     } else {
+      setIsRemote(false);
       setShowOrderSummary(false);
     }
   }, [selectedBox]);
@@ -61,7 +79,7 @@ export default function TicketsAvailable({ setIsRemote }) {
             );
           })}
         </div>
-        {showOrderSummary ? <OrderSummary total={total} onClick={() => confirmationHandler()} /> : null}
+        {showOrderSummary ? <OrderSummary total={total} onClick={() => createTicket(choosenTicket)} /> : null}
       </Container>
     </>
   );
