@@ -4,8 +4,9 @@ import Card from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import Button from '../Form/Button';
 import cardIssuers from '../../assets/constants/cardIssuers';
+import axios from 'axios';
 
-export default function CreditCardSection({ setPaymentFinished }) {
+export default function CreditCardSection({ setPaymentFinished, ticketId }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const [expiry, setExpiry] = useState('');
@@ -16,6 +17,7 @@ export default function CreditCardSection({ setPaymentFinished }) {
   const [validExpiry, setValidExpiry] = useState(true);
   const [validCVC, setValidCVC] = useState(true);
   const [validForm, setValidForm] = useState(false);
+  console.log(process.env.REACT_APP_API_BASE_URL);
 
   function handleNumberAndExpiry(e, step, separator, setState) {
     const newNumber = e.target.value;
@@ -112,6 +114,19 @@ export default function CreditCardSection({ setPaymentFinished }) {
     if (validForm === false) return;
 
     setPaymentFinished(true);
+
+    const body = {
+      ticketId,
+      cardData: {
+        issuer: cardIssuers[number.slice(0, 2)],
+        number: number.split(' ').join(''),
+        name,
+        expirationDate: expiry,
+        cvv: cvc
+      }
+    };
+
+    axios.post(process.env.REACT_APP_API_BASE_URL + '/process', body);
   }
 
   return (

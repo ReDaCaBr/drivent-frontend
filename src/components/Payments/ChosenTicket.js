@@ -12,6 +12,9 @@ export default function ChosenTicket() {
   const [ticketType, setTicketType] = useState('');
   const [paymentFinished, setPaymentFinished] = useState(false);
   const [ticketId, setTicketId] = useState(0);
+  console.log(ticket);
+  console.log(ticketPrice);
+  console.log(ticketId);
 
   useEffect(() => {
     if(ticket) {
@@ -47,7 +50,14 @@ export default function ChosenTicket() {
             {ticketType}
           </TicketPrice>
         </TicketSummaryBox>
-        {paymentFinished === false ? <CreditCardSection setPaymentFinished={setPaymentFinished}/> : <PaymentConfirmed />}
+        {(paymentFinished === false) ? (
+          <CreditCardSection
+            setPaymentFinished={setPaymentFinished}
+            ticketId={ticketId}
+          />
+        ) : (
+          <PaymentConfirmed />
+        )}
       </Container>
     </>
   );
