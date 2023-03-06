@@ -6,7 +6,7 @@ import { ticketsType } from '../../assets/constants/tickets.js';
 import OrderSummary from './OrderSummary.js';
 import BoxChoice from './BoxChoice.js';
 
-export default function TicketsAvailable() {
+export default function TicketsAvailable({ setIsRemote }) {
   const [selectedBox, setSelectedBox] = useState([]);
   const [total, setTotal] = useState(0);
   const [showOrderSummary, setShowOrderSummary] = useState(false);
@@ -24,6 +24,10 @@ export default function TicketsAvailable() {
     setTotal(choice.price);
   }
 
+  function confirmationHandler() {
+    setIsRemote(true);
+    setShowOrderSummary(false);
+  }
   useEffect(() => {
     if (selectedBox.length !== 0) {
       setShowOrderSummary(true);
@@ -57,7 +61,7 @@ export default function TicketsAvailable() {
             );
           })}
         </div>
-        {showOrderSummary ? <OrderSummary total={total} /> : null}
+        {showOrderSummary ? <OrderSummary total={total} onClick={() => confirmationHandler()} /> : null}
       </Container>
     </>
   );
