@@ -8,6 +8,8 @@ import OrderSummary from '../Payments/OrderSummary';
 import ChosenTicket from '../Payments/ChosenTicket';
 import PaymentConfirmed from '../Payments/PaymentConfirmed';
 import CreditCardSection from '../Payments/CreditCard';
+import useTicketTypes from '../../hooks/api/useTicketTypes';
+import useTicket from '../../hooks/api/useTicket';
 
 export default function TicketAndPayment() {
   const [renderization, setRenderization] = useState(<></>);
@@ -16,6 +18,9 @@ export default function TicketAndPayment() {
   const [includesHotel, setIncludesHotel] = useState(false);
   const [total, setTotal] = useState(0);
   const [paymentFinished, setPaymentFinished] = useState(false);
+  const { ticketTypes } = useTicketTypes();
+
+  console.log(ticketTypes);
 
   const noEnrollmentRenderization = (
     <>
@@ -31,14 +36,14 @@ export default function TicketAndPayment() {
   const noIsRemoteChoiceRenderization = (
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
-      <TicketsAvailable setIsRemote={setIsRemote} />
+      <TicketsAvailable setIsRemote={setIsRemote} setIncludesHote={setIncludesHotel} />
     </>
   );
 
   const noIncludesHotelChoiceRenderization = (
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
-      <TicketsAvailable setIsRemote={setIsRemote} />
+      <TicketsAvailable setIsRemote={setIsRemote} setIncludesHote={setIncludesHotel} />
       <HotelOptions setIncludesHotel={setIncludesHotel} />
     </>
   );

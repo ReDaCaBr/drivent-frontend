@@ -21,12 +21,12 @@ export default function HotelOptions({ setIncludesHotel }) {
   }
 
   function totalHandler(choice) {
-    setTotal(choice.price);
+    setTotal(`R$ ${250 + Number(choice.price.replace(/[^0-9]/g, ''))}`);
   }
 
   function confirmationHandler() {
-    setShowOrderSummary(false);
     setIncludesHotel(true);
+    setShowOrderSummary(false);
   }
 
   useEffect(() => {
