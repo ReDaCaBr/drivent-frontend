@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { ticketsType } from '../../assets/constants/tickets.js';
 import BoxChoice from './BoxChoice.js';
 import useTicket from '../../hooks/api/useTicket';
+import CreditCardSection from './creditCard.js';
+import PaymentConfirmed from './PaymentConfirmed.js';
 
-export default function ChosenTicket() {
-  /*const { ticket } = useTicket();
-
+export default function ChosenTicket({ paymentFinished, setPaymentFinished }) {
+  const { ticket } = useTicket();
+  console.log(ticket);
   const [ticketPrice, setTicketPrice] = useState(0);
   const [ticketType, setTicketType] = useState('');
 
@@ -14,19 +15,25 @@ export default function ChosenTicket() {
 
   useEffect(() => {
     if(ticket) {
-      setTicketId(2);
-      setTicketPrice(ticket.TicketPrice.price);
+      setTicketId(ticket.id);
+      setTicketPrice(ticket.TicketType.price);
 
       if (ticket.TicketType.isRemote === true) {
-        setTicketType('Online');
+        setTicketType(ticket.TicketType.name);
       } else if (ticket.TicketType.isRemote === false && ticket.TicketType.includesHotel === true) {
-        setTicketType('Presencial + Hotel');
+        setTicketType(ticket.TicketType.name);
         setTicketPrice(ticket.TicketType.price);
       } else {
-        setTicketType('Presencial');
+        setTicketType(ticket.TicketType.name);
+      }
+
+      if (ticket.status === 'PAID') {
+        setPaymentFinished(true);
+      } else {
+        setPaymentFinished(false);
       }
     }
-  }, []);*/
+  }, [ticket, ticketPrice]);
 
   return (
     <>
@@ -34,12 +41,13 @@ export default function ChosenTicket() {
         <PageSubTitle>Ingresso escolhido</PageSubTitle>
         <TicketSummaryBox>
           <TicketType>
-            assa
+            {ticketPrice}
           </TicketType>
           <TicketPrice>
-            sas
+            {ticketType}
           </TicketPrice>
         </TicketSummaryBox>
+        {paymentFinished === false ? <CreditCardSection /> : <PaymentConfirmed />}
       </Container>
     </>
   );
