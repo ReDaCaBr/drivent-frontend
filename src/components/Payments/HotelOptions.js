@@ -24,6 +24,10 @@ export default function HotelOptions() {
     setTotal(choice.price);
   }
 
+  // function onClickHandler() {
+  //   setShowOrderSummary(false);
+  // }
+
   useEffect(() => {
     if (selectedBox.length !== 0) {
       setShowOrderSummary(true);

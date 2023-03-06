@@ -2,12 +2,11 @@ import styled from 'styled-components';
 import Button from '../Form/Button';
 
 export default function OrderSummary({ total }) {
-  async function handleButton() {}
   return (
     <OrderStyled>
       Fechado! O total ficou em <span>R$ {total}</span>. Agora é só confirmar:
       <div>
-        <Button onClick={() => handleButton()}>RESERVAR INGRESSO</Button>
+        <Button>RESERVAR INGRESSO</Button>
       </div>
     </OrderStyled>
   );

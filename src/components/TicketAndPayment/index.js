@@ -13,7 +13,7 @@ export default function TicketAndPayment() {
   const [renderization, setRenderization] = useState(<></>);
   const { enrollment } = useEnrollment();
   const [isRemote, setIsRemote] = useState(true);
-  const [includesHotel, setIncludesHotel] = useState(true);
+  const [includesHotel, setIncludesHotel] = useState(false);
   const [total, setTotal] = useState(0);
   //const [summary, setSummary] = useState(false);
 
@@ -63,7 +63,7 @@ export default function TicketAndPayment() {
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
       <span>Pagamento</span>
-      <CreditCardSection/>
+      <CreditCardSection />
     </>
   );
 
