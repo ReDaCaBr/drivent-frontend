@@ -48,7 +48,7 @@ export default function TicketAndPayment() {
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
       <ChosenTicket />
-      <CreditCardSection setPaymentFinished={setPaymentFinished}/>
+      <CreditCardSection setPaymentFinished={setPaymentFinished} />
     </>
   );
 
