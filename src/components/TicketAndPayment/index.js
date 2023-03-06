@@ -44,7 +44,7 @@ export default function TicketAndPayment() {
     </>
   );
 
-  let paymentRenderization = (
+  const paymentRenderization = (
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
       <ChosenTicket />
