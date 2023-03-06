@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import TicketsAvailable from '../Payments/TicketsAvailable.js';
 import HotelOptions from '../Payments/HotelOptions';
 import OrderSummary from '../Payments/OrderSummary';
+import ChosenTicket from '../Payments/ChosenTicket';
+import PaymentConfirmed from '../Payments/PaymentConfirmed';
 import CreditCardSection from '../Payments/creditCard';
 
 export default function TicketAndPayment() {
@@ -13,6 +15,7 @@ export default function TicketAndPayment() {
   const [isRemote, setIsRemote] = useState(true);
   const [includesHotel, setIncludesHotel] = useState(true);
   const [total, setTotal] = useState(0);
+  //const [summary, setSummary] = useState(false);
 
   const noEnrollmentRenderization = (
     <>
@@ -46,6 +49,21 @@ export default function TicketAndPayment() {
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
       <span>pagamentos</span>
       <CreditCardSection />
+      <ChosenTicket />
+    </>
+  );
+
+  /*const paymentConfirm = (
+    <>
+      <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
+      <PaymentConfirmed />
+    </>
+  );*/
+  const creditCard = (
+    <>
+      <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
+      <span>Pagamento</span>
+      <CreditCardSection/>
     </>
   );
 
