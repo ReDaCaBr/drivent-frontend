@@ -3,17 +3,38 @@ import { hotelChoice } from '../../assets/constants/tickets.js';
 import BoxChoice from './BoxChoice.js';
 import { softYellow, white } from '../../assets/constants/colors.js';
 import { useState } from 'react';
+import OrderSummary from './OrderSummary.js';
+import { useEffect } from 'react';
 
 export default function HotelOptions() {
   const [selectedBox, setSelectedBox] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [showOrderSummary, setShowOrderSummary] = useState(false);
 
-  function backgroundColorHandler(choiceId) {
+  function backgroundColorHandler(choice) {
     let newSelectedBox = [];
-    if (!selectedBox.includes(choiceId)) {
-      newSelectedBox = [choiceId];
+    if (!selectedBox.includes(choice.id)) {
+      newSelectedBox = [choice.id];
     }
     setSelectedBox(newSelectedBox);
+    totalHandler(choice);
   }
+
+  function totalHandler(choice) {
+    setTotal(choice.price);
+  }
+
+  // function onClickHandler() {
+  //   setShowOrderSummary(false);
+  // }
+
+  useEffect(() => {
+    if (selectedBox.length !== 0) {
+      setShowOrderSummary(true);
+    } else {
+      setShowOrderSummary(false);
+    }
+  }, [selectedBox]);
 
   return (
     <>
@@ -27,7 +48,7 @@ export default function HotelOptions() {
                 background={softYellow}
                 name={choice.name}
                 price={choice.price}
-                onClick={() => backgroundColorHandler(choice.id)}
+                onClick={() => backgroundColorHandler(choice)}
               />
             ) : (
               <BoxChoice
@@ -35,11 +56,12 @@ export default function HotelOptions() {
                 background={white}
                 name={choice.name}
                 price={choice.price}
-                onClick={() => backgroundColorHandler(choice.id)}
+                onClick={() => backgroundColorHandler(choice)}
               />
             );
           })}
         </div>
+        {showOrderSummary ? <OrderSummary total={total} /> : null}
       </Container>
     </>
   );

@@ -1,19 +1,36 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { softYellow, white } from '../../assets/constants/colors.js';
 import { ticketsType } from '../../assets/constants/tickets.js';
+import OrderSummary from './OrderSummary.js';
 import BoxChoice from './BoxChoice.js';
 
 export default function TicketsAvailable() {
   const [selectedBox, setSelectedBox] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [showOrderSummary, setShowOrderSummary] = useState(false);
 
-  function backgroundColorHandler(ticketId) {
+  function backgroundColorHandler(ticket) {
     let newSelectedBox = [];
-    if (!selectedBox.includes(ticketId)) {
-      newSelectedBox = [ticketId];
+    if (!selectedBox.includes(ticket.id)) {
+      newSelectedBox = [ticket.id];
     }
     setSelectedBox(newSelectedBox);
+    totalHandler(ticket);
   }
+
+  function totalHandler(choice) {
+    setTotal(choice.price);
+  }
+
+  useEffect(() => {
+    if (selectedBox.length !== 0) {
+      setShowOrderSummary(true);
+    } else {
+      setShowOrderSummary(false);
+    }
+  }, [selectedBox]);
 
   return (
     <>
@@ -27,7 +44,7 @@ export default function TicketsAvailable() {
                 background={softYellow}
                 name={ticket.name}
                 price={ticket.price}
-                onClick={() => backgroundColorHandler(ticket.id)}
+                onClick={() => backgroundColorHandler(ticket)}
               />
             ) : (
               <BoxChoice
@@ -35,11 +52,12 @@ export default function TicketsAvailable() {
                 background={white}
                 name={ticket.name}
                 price={ticket.price}
-                onClick={() => backgroundColorHandler(ticket.id)}
+                onClick={() => backgroundColorHandler(ticket)}
               />
             );
           })}
         </div>
+        {showOrderSummary ? <OrderSummary total={total} /> : null}
       </Container>
     </>
   );

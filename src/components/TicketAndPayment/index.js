@@ -4,6 +4,7 @@ import useEnrollment from '../../hooks/api/useEnrollment';
 import { useEffect, useState } from 'react';
 import TicketsAvailable from '../Payments/TicketsAvailable.js';
 import HotelOptions from '../Payments/HotelOptions';
+import OrderSummary from '../Payments/OrderSummary';
 import ChosenTicket from '../Payments/ChosenTicket';
 import PaymentConfirmed from '../Payments/PaymentConfirmed';
 import CreditCardSection from '../Payments/creditCard';
@@ -13,6 +14,7 @@ export default function TicketAndPayment() {
   const { enrollment } = useEnrollment();
   const [isRemote, setIsRemote] = useState(true);
   const [includesHotel, setIncludesHotel] = useState(false);
+  const [total, setTotal] = useState(0);
   //const [summary, setSummary] = useState(false);
 
   const noEnrollmentRenderization = (
@@ -30,6 +32,7 @@ export default function TicketAndPayment() {
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
       <TicketsAvailable />
+      <OrderSummary total={total} />
     </>
   );
 
@@ -44,6 +47,8 @@ export default function TicketAndPayment() {
   const paymentRenderization = (
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
+      <span>pagamentos</span>
+      <CreditCardSection />
       <ChosenTicket />
     </>
   );
@@ -58,7 +63,7 @@ export default function TicketAndPayment() {
     <>
       <StyledTypography variant="h4">Ingresso e Pagamento</StyledTypography>
       <span>Pagamento</span>
-      <CreditCardSection/>
+      <CreditCardSection />
     </>
   );
 
