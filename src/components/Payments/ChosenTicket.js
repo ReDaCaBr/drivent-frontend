@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import BoxChoice from './BoxChoice.js';
 import useTicket from '../../hooks/api/useTicket';
-import CreditCardSection from './creditCard.js';
+import CreditCardSection from './CreditCard.js';
 import PaymentConfirmed from './PaymentConfirmed.js';
 
-export default function ChosenTicket({ paymentFinished, setPaymentFinished }) {
+export default function ChosenTicket() {
   const { ticket } = useTicket();
   console.log(ticket);
   const [ticketPrice, setTicketPrice] = useState(0);
   const [ticketType, setTicketType] = useState('');
-
+  const [paymentFinished, setPaymentFinished] = useState(false);
   const [ticketId, setTicketId] = useState(0);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function ChosenTicket({ paymentFinished, setPaymentFinished }) {
         setTicketType(ticket.TicketType.name);
       }
 
-      if (ticket.status === 'PAID') {
+      if (ticket.TicketType.status === 'PAID') {
         setPaymentFinished(true);
       } else {
         setPaymentFinished(false);
@@ -47,7 +47,7 @@ export default function ChosenTicket({ paymentFinished, setPaymentFinished }) {
             {ticketType}
           </TicketPrice>
         </TicketSummaryBox>
-        {paymentFinished === false ? <CreditCardSection /> : <PaymentConfirmed />}
+        {paymentFinished === false ? <CreditCardSection setPaymentFinished={setPaymentFinished}/> : <PaymentConfirmed />}
       </Container>
     </>
   );

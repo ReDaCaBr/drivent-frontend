@@ -32,6 +32,7 @@ export const Container = styled.div`
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
+  margin-top: 30px;
   div {
     display: flex;
   }

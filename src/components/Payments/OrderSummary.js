@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import Button from '../Form/Button';
 
-export default function OrderSummary({ total }) {
+export default function OrderSummary(props) {
   return (
     <OrderStyled>
-      Fechado! O total ficou em <span>R$ {total}</span>. Agora é só confirmar:
+      Fechado! O total ficou em <span>R$ {props.total}</span>. Agora é só confirmar:
       <div>
-        <Button>RESERVAR INGRESSO</Button>
+        <Button onClick={props.onClick}>RESERVAR INGRESSO</Button>
       </div>
     </OrderStyled>
   );
