@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Card from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
@@ -17,7 +17,6 @@ export default function CreditCardSection({ setPaymentFinished, ticketId }) {
   const [validExpiry, setValidExpiry] = useState(true);
   const [validCVC, setValidCVC] = useState(true);
   const [validForm, setValidForm] = useState(false);
-  console.log(process.env.REACT_APP_API_BASE_URL);
 
   function handleNumberAndExpiry(e, step, separator, setState) {
     const newNumber = e.target.value;
@@ -109,8 +108,6 @@ export default function CreditCardSection({ setPaymentFinished, ticketId }) {
   }
 
   function submitPayment() {
-    validateForm();
-
     if (validForm === false) return;
 
     setPaymentFinished(true);
@@ -128,6 +125,8 @@ export default function CreditCardSection({ setPaymentFinished, ticketId }) {
 
     axios.post(process.env.REACT_APP_API_BASE_URL + '/process', body);
   }
+
+  useEffect(submitPayment, [validForm]);
 
   return (
     <>
@@ -191,7 +190,7 @@ export default function CreditCardSection({ setPaymentFinished, ticketId }) {
           </div>
         </Form>
       </CCandFormContainerStyles>
-      <Button onClick={submitPayment}>FINALIZAR PAGAMENTO</Button>
+      <Button onClick={validateForm}>FINALIZAR PAGAMENTO</Button>
     </>
   );
 }

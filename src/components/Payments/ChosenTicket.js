@@ -7,14 +7,10 @@ import PaymentConfirmed from './PaymentConfirmed.js';
 
 export default function ChosenTicket() {
   const { ticket } = useTicket();
-  console.log(ticket);
   const [ticketPrice, setTicketPrice] = useState(0);
   const [ticketType, setTicketType] = useState('');
   const [paymentFinished, setPaymentFinished] = useState(false);
   const [ticketId, setTicketId] = useState(0);
-  console.log(ticket);
-  console.log(ticketPrice);
-  console.log(ticketId);
 
   useEffect(() => {
     if(ticket) {
@@ -75,9 +71,6 @@ export const Container = styled.div`
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
-  div {
-    display: flex;
-  }
 `;
 
 const TicketSummaryBox = styled.div`
