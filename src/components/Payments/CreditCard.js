@@ -4,19 +4,18 @@ import Card from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import Button from '../Form/Button';
 import cardIssuers from '../../assets/constants/cardIssuers';
-import axios from 'axios';
+// import axios from 'axios';
 
-export default function CreditCardSection({ setPaymentFinished, ticketId }) {
+export default function CreditCardSection({ setPaymentFinished, ticketId, setBody }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const [expiry, setExpiry] = useState('');
   const [cvc, setCVC] = useState('');
   const [focused, setFocused] = useState('');
-  const [validName, setValidName] = useState(true);
-  const [validNumber, setValidNumber] = useState(true);
-  const [validExpiry, setValidExpiry] = useState(true);
-  const [validCVC, setValidCVC] = useState(true);
-  const [validForm, setValidForm] = useState(false);
+  const [validName, setValidName] = useState(null);
+  const [validNumber, setValidNumber] = useState(null);
+  const [validExpiry, setValidExpiry] = useState(null);
+  const [validCVC, setValidCVC] = useState(null);
 
   function handleNumberAndExpiry(e, step, separator, setState) {
     const newNumber = e.target.value;
@@ -57,24 +56,22 @@ export default function CreditCardSection({ setPaymentFinished, ticketId }) {
     setCVC(numeric);
   }
 
-  function toggleStates(setState) {
-    setState(false);
-    setValidForm(false);
-  }
-
   function validateForm() {
-    setValidName(true);
-    setValidNumber(true);
-    setValidExpiry(true);
-    setValidCVC(true);
-    setValidForm(true);
+    setValidName(null);
+    setValidNumber(null);
+    setValidExpiry(null);
+    setValidCVC(null);
+
+    let validForm = true;
 
     if(name === '') {
-      toggleStates(setValidName);
+      setValidName(false);
+      validForm = false;
     }
 
     if (number.length !== 19) {
-      toggleStates(setValidNumber);
+      setValidNumber(false);
+      validForm = false;
     }
 
     const regex = new RegExp('^((0[1-9])|(1[0-2]))/[0-9]{2}$');
@@ -93,7 +90,8 @@ export default function CreditCardSection({ setPaymentFinished, ticketId }) {
     ];
 
     if (expiryInvalidConditions[0] || expiryInvalidConditions[1] || (expiryInvalidConditions[2] && expiryInvalidConditions[3])) {
-      toggleStates(setValidExpiry);
+      setValidExpiry(false);
+      validForm = false;
     }
 
     const cvcInvalidConditions = [
@@ -103,12 +101,24 @@ export default function CreditCardSection({ setPaymentFinished, ticketId }) {
     ];
 
     if (cvcInvalidConditions[0] || (cvcInvalidConditions[1] && cvcInvalidConditions[2])) {
-      toggleStates(setValidCVC);
+      setValidCVC(false);
+      validForm = false;
+    }
+
+    if (validForm) {
+      setValidName(true);
+      setValidNumber(true);
+      setValidExpiry(true);
+      setValidCVC(true);
     }
   }
 
   function submitPayment() {
-    if (validForm === false) return;
+    const states = [validCVC, validExpiry, validName, validNumber];
+
+    for (const state of states) {
+      if (state === null || state === false) return;
+    }
 
     setPaymentFinished(true);
 
@@ -123,10 +133,10 @@ export default function CreditCardSection({ setPaymentFinished, ticketId }) {
       }
     };
 
-    axios.post(process.env.REACT_APP_API_BASE_URL + '/process', body);
+    setBody(body);
   }
 
-  useEffect(submitPayment, [validForm]);
+  useEffect(submitPayment, [validCVC, validExpiry, validName, validNumber]);
 
   return (
     <>
@@ -215,7 +225,7 @@ const CCandFormContainerStyles = styled.section`
 `;
 
 function toggleBorder(validEntry) {
-  return validEntry ? '#C9C9C9' : 'red';
+  return (validEntry === true || validEntry === null) ? '#C9C9C9' : 'red';
 }
 
 const Form = styled.form`
