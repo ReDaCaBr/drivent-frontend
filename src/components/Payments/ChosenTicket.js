@@ -10,6 +10,7 @@ export default function ChosenTicket() {
   const [ticketType, setTicketType] = useState('');
   const [paymentFinished, setPaymentFinished] = useState(false);
   const [ticketId, setTicketId] = useState(0);
+  const [body, setBody] = useState({});
 
   useEffect(() => {
     if (ticket) {
@@ -44,7 +45,7 @@ export default function ChosenTicket() {
         {paymentFinished === false ? (
           <CreditCardSection setPaymentFinished={setPaymentFinished} ticketId={ticketId} />
         ) : (
-          <PaymentConfirmed />
+          <PaymentConfirmed body={body} />
         )}
       </Container>
     </>
