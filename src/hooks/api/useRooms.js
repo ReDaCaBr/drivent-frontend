@@ -10,7 +10,7 @@ export default function useRooms(hotelId) {
     loading: roomsLoading,
     error: roomsError,
     act: getRooms,
-  } = useAsync(() => roomsApi.getRooms(hotelId, token), false);
+  } = useAsync(() => roomsApi.getRooms(hotelId, token));
 
   return {
     rooms,

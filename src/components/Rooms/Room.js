@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+
 import { VacancyFree, VacancyOccupied, VacancySelected } from './Icons';
 
 export default function Room() {
