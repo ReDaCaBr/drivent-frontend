@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import BoxChoice from './BoxChoice.js';
 import useTicket from '../../hooks/api/useTicket';
 import CreditCardSection from './CreditCard.js';
 import PaymentConfirmed from './PaymentConfirmed.js';
@@ -11,9 +10,10 @@ export default function ChosenTicket() {
   const [ticketType, setTicketType] = useState('');
   const [paymentFinished, setPaymentFinished] = useState(false);
   const [ticketId, setTicketId] = useState(0);
+  const [body, setBody] = useState({});
 
   useEffect(() => {
-    if(ticket) {
+    if (ticket) {
       setTicketId(ticket.id);
       setTicketPrice(ticket.TicketType.price);
 
@@ -39,20 +39,13 @@ export default function ChosenTicket() {
       <Container>
         <PageSubTitle>Ingresso escolhido</PageSubTitle>
         <TicketSummaryBox>
-          <TicketType>
-            {ticketPrice}
-          </TicketType>
-          <TicketPrice>
-            {ticketType}
-          </TicketPrice>
+          <TicketType>{ticketPrice}</TicketType>
+          <TicketPrice>{ticketType}</TicketPrice>
         </TicketSummaryBox>
-        {(paymentFinished === false) ? (
-          <CreditCardSection
-            setPaymentFinished={setPaymentFinished}
-            ticketId={ticketId}
-          />
+        {paymentFinished === false ? (
+          <CreditCardSection setPaymentFinished={setPaymentFinished} ticketId={ticketId} setBody={setBody} />
         ) : (
-          <PaymentConfirmed />
+          <PaymentConfirmed body={body} />
         )}
       </Container>
     </>
@@ -84,7 +77,7 @@ const TicketSummaryBox = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 30px;
-  margin-top: 17px
+  margin-top: 17px;
 `;
 
 const TicketType = styled.span`
