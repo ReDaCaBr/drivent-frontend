@@ -30,7 +30,7 @@ export default function ChosenTicket() {
         setPaymentFinished(true);
       } else {
         setPaymentFinished(false);
-      }
+      } 
     }
   }, [ticket, ticketPrice]);
 
@@ -40,10 +40,10 @@ export default function ChosenTicket() {
         <PageSubTitle>Ingresso escolhido</PageSubTitle>
         <TicketSummaryBox>
           <TicketType>
-            {ticketPrice}
+            {ticketType}
           </TicketType>
           <TicketPrice>
-            {ticketType}
+            R$ {ticketPrice}
           </TicketPrice>
         </TicketSummaryBox>
         {(paymentFinished === false) ? (
