@@ -29,6 +29,12 @@ export default function HotelAndRoom() {
     </>
   );
 
+  const isPresencialRenderization = (
+    <>
+      <span>presencial!!!</span>
+    </>
+  );
+
   useEffect(() => {
     renderizationHandler();
   }, [ticket]);
@@ -38,12 +44,11 @@ export default function HotelAndRoom() {
       return noTicketPaidRenderization;
     }
 
-    if (ticket?.ticketType.isRemote) {
+    if (ticket?.ticketType?.isRemote) {
       return isRemoteRenderization;
     }
-    // } else if (!includesHotel) {
-    //   setRenderization(noIncludesHotelChoiceRenderization);
-    // }
+
+    return isPresencialRenderization;
   }
 
   return ticket && renderizationHandler();
