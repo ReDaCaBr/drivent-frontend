@@ -4,19 +4,18 @@ import Card from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import Button from '../Form/Button';
 import cardIssuers from '../../assets/constants/cardIssuers';
-import axios from 'axios';
+// import axios from 'axios';
 
-export default function CreditCardSection({ setPaymentFinished, ticketId }) {
+export default function CreditCardSection({ setPaymentFinished, ticketId, setBody }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const [expiry, setExpiry] = useState('');
   const [cvc, setCVC] = useState('');
   const [focused, setFocused] = useState('');
-  const [validName, setValidName] = useState(true);
-  const [validNumber, setValidNumber] = useState(true);
-  const [validExpiry, setValidExpiry] = useState(true);
-  const [validCVC, setValidCVC] = useState(true);
-  const [validForm, setValidForm] = useState(false);
+  const [validName, setValidName] = useState(null);
+  const [validNumber, setValidNumber] = useState(null);
+  const [validExpiry, setValidExpiry] = useState(null);
+  const [validCVC, setValidCVC] = useState(null);
 
   function handleNumberAndExpiry(e, step, separator, setState) {
     const newNumber = e.target.value;
@@ -57,24 +56,22 @@ export default function CreditCardSection({ setPaymentFinished, ticketId }) {
     setCVC(numeric);
   }
 
-  function toggleStates(setState) {
-    setState(false);
-    setValidForm(false);
-  }
-
   function validateForm() {
-    setValidName(true);
-    setValidNumber(true);
-    setValidExpiry(true);
-    setValidCVC(true);
-    setValidForm(true);
+    setValidName(null);
+    setValidNumber(null);
+    setValidExpiry(null);
+    setValidCVC(null);
 
-    if(name === '') {
-      toggleStates(setValidName);
+    let validForm = true;
+
+    if (name === '') {
+      setValidName(false);
+      validForm = false;
     }
 
     if (number.length !== 19) {
-      toggleStates(setValidNumber);
+      setValidNumber(false);
+      validForm = false;
     }
 
     const regex = new RegExp('^((0[1-9])|(1[0-2]))/[0-9]{2}$');
@@ -89,26 +86,43 @@ export default function CreditCardSection({ setPaymentFinished, ticketId }) {
       regex.test(expiry) === false,
       Number(insertedYear) < Number(year),
       Number(insertedMonth) < month,
-      Number(insertedYear) === Number(year)
+      Number(insertedYear) === Number(year),
     ];
 
-    if (expiryInvalidConditions[0] || expiryInvalidConditions[1] || (expiryInvalidConditions[2] && expiryInvalidConditions[3])) {
-      toggleStates(setValidExpiry);
+    if (
+      expiryInvalidConditions[0] ||
+      expiryInvalidConditions[1] ||
+      (expiryInvalidConditions[2] && expiryInvalidConditions[3])
+    ) {
+      setValidExpiry(false);
+      validForm = false;
     }
 
     const cvcInvalidConditions = [
       cvc.length < 3,
       cvc.length === 4,
-      cardIssuers[number.slice(0, 2)] !== 'American Express'
+      cardIssuers[number.slice(0, 2)] !== 'American Express',
     ];
 
     if (cvcInvalidConditions[0] || (cvcInvalidConditions[1] && cvcInvalidConditions[2])) {
-      toggleStates(setValidCVC);
+      setValidCVC(false);
+      validForm = false;
+    }
+
+    if (validForm) {
+      setValidName(true);
+      setValidNumber(true);
+      setValidExpiry(true);
+      setValidCVC(true);
     }
   }
 
   function submitPayment() {
-    if (validForm === false) return;
+    const states = [validCVC, validExpiry, validName, validNumber];
+
+    for (const state of states) {
+      if (state === null || state === false) return;
+    }
 
     setPaymentFinished(true);
 
@@ -119,48 +133,37 @@ export default function CreditCardSection({ setPaymentFinished, ticketId }) {
         number: number.split(' ').join(''),
         name,
         expirationDate: expiry,
-        cvv: cvc
-      }
+        cvv: cvc,
+      },
     };
 
-    axios.post(process.env.REACT_APP_API_BASE_URL + '/process', body);
+    setBody(body);
   }
 
-  useEffect(submitPayment, [validForm]);
+  useEffect(submitPayment, [validCVC, validExpiry, validName, validNumber]);
 
   return (
     <>
       <SectionNameStyles>Pagamento</SectionNameStyles>
       <CCandFormContainerStyles>
-        <Card
-          number={number}
-          name={name}
-          expiry={expiry}
-          cvc={cvc}
-          focused={focused}
-        />
-        <Form
-          validName={validName}
-          validNumber={validNumber}
-          validExpiry={validExpiry}
-          validCVC={validCVC}
-        >
+        <Card number={number} name={name} expiry={expiry} cvc={cvc} focused={focused} />
+        <Form validName={validName} validNumber={validNumber} validExpiry={validExpiry} validCVC={validCVC}>
           <input
-            type='text'
-            name='number'
-            placeholder='Card Number'
-            maxLength='19'
+            type="text"
+            name="number"
+            placeholder="Card Number"
+            maxLength="19"
             required
             value={number}
             onChange={(e) => handleNumberAndExpiry(e, 4, ' ', setNumber)}
             onFocus={() => setFocused('number')}
           />
-          <label htmlFor='number'>E.g.: 49..., 51..., 36..., 37...</label>
+          <label htmlFor="number">E.g.: 49..., 51..., 36..., 37...</label>
           <input
-            type='text'
-            name='name'
-            placeholder='Name'
-            maxLength='18'
+            type="text"
+            name="name"
+            placeholder="Name"
+            maxLength="18"
             required
             value={name}
             onChange={(e) => setName(e.target.value.toUpperCase())}
@@ -168,20 +171,20 @@ export default function CreditCardSection({ setPaymentFinished, ticketId }) {
           />
           <div>
             <input
-              type='text'
-              name='expiry'
-              placeholder='Valid Thru'
-              maxLength='5'
+              type="text"
+              name="expiry"
+              placeholder="Valid Thru"
+              maxLength="5"
               required
               value={expiry}
               onChange={(e) => handleNumberAndExpiry(e, 2, '/', setExpiry)}
               onFocus={() => setFocused('expiry')}
             />
             <input
-              type='text'
-              name='cvc'
-              placeholder='CVC'
-              maxLength='4'
+              type="text"
+              name="cvc"
+              placeholder="CVC"
+              maxLength="4"
               required
               value={cvc}
               onChange={handleCVC}
@@ -215,7 +218,7 @@ const CCandFormContainerStyles = styled.section`
 `;
 
 function toggleBorder(validEntry) {
-  return validEntry ? '#C9C9C9' : 'red';
+  return validEntry === true || validEntry === null ? '#C9C9C9' : 'red';
 }
 
 const Form = styled.form`

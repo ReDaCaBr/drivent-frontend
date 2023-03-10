@@ -4,14 +4,14 @@ import Typography from '@material-ui/core/Typography';
 import useHotel from '../../hooks/api/useHotel';
 
 export default function Hotels() {
-  const { getHotels } = useHotel();
+  /*const { getHotels } = useHotel();
   const [hotels, setHotels] = useState([]);
   //console.log(hotel);
 
   useEffect(async() => {
     const data = await getHotels();
     setHotels(data);
-  }, []);
+  }, []);*/
 
   return (
     <>

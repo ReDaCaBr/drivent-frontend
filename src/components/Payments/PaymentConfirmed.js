@@ -2,8 +2,11 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import BoxChoice from './BoxChoice.js';
 import { IoCheckmarkCircleSharp } from 'react-icons/io5';
+import usePaymentProcess from '../../hooks/api/usePaymentProcess.js';
 
-export default function PaymentConfirmed() {
+export default function PaymentConfirmed({ body }) {
+  usePaymentProcess(body);
+
   return (
     <>
       <Container>

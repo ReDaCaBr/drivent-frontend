@@ -4,13 +4,8 @@ import useEnrollment from '../../hooks/api/useEnrollment';
 import { useContext, useEffect, useState } from 'react';
 import TicketsAvailable from '../Payments/TicketsAvailable.js';
 import HotelOptions from '../Payments/HotelOptions';
-import OrderSummary from '../Payments/OrderSummary';
 import ChosenTicket from '../Payments/ChosenTicket';
-import PaymentConfirmed from '../Payments/PaymentConfirmed';
-import CreditCardSection from '../Payments/CreditCard';
 import useTicketTypes from '../../hooks/api/useTicketTypes';
-import useTicket from '../../hooks/api/useTicket';
-import useToken from '../../hooks/useToken';
 import UserContext from '../../contexts/UserContext';
 
 export default function TicketAndPayment() {
@@ -18,8 +13,6 @@ export default function TicketAndPayment() {
   const { enrollment } = useEnrollment();
   const [isRemote, setIsRemote] = useState(false);
   const [includesHotel, setIncludesHotel] = useState(false);
-  const [total, setTotal] = useState(0);
-  const [paymentFinished, setPaymentFinished] = useState(false);
   const { ticketTypes } = useTicketTypes();
   const { userData } = useContext(UserContext);
   const token = userData.token.toString();
