@@ -43,7 +43,7 @@ export default function ChosenTicket() {
           <TicketPrice>{ticketType}</TicketPrice>
         </TicketSummaryBox>
         {paymentFinished === false ? (
-          <CreditCardSection setPaymentFinished={setPaymentFinished} ticketId={ticketId} />
+          <CreditCardSection setPaymentFinished={setPaymentFinished} ticketId={ticketId} setBody={setBody} />
         ) : (
           <PaymentConfirmed body={body} />
         )}
