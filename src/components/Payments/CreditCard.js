@@ -4,7 +4,6 @@ import Card from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import Button from '../Form/Button';
 import cardIssuers from '../../assets/constants/cardIssuers';
-// import axios from 'axios';
 
 export default function CreditCardSection({ setPaymentFinished, ticketId, setBody }) {
   const [name, setName] = useState('');
@@ -129,7 +128,7 @@ export default function CreditCardSection({ setPaymentFinished, ticketId, setBod
     const body = {
       ticketId,
       cardData: {
-        issuer: cardIssuers[number.slice(0, 2)],
+        issuer: (number.slice(0, 2) in cardIssuers) ? cardIssuers[number.slice(0, 2)] : 'UNKNOWN',
         number: number.split(' ').join(''),
         name,
         expirationDate: expiry,
