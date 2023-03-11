@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 
 export default function HotelAndRoom() {
   const { ticket } = useTicket();
-  console.log(ticket?.status);
 
   const noTicketPaidRenderization = (
     <>
@@ -29,24 +28,32 @@ export default function HotelAndRoom() {
     </>
   );
 
+  const isPresencialRenderization = (
+    <>
+      <span>presencial!!!</span>
+    </>
+  );
+
   useEffect(() => {
     renderizationHandler();
   }, [ticket]);
 
   function renderizationHandler() {
+    if (!ticket) {
+      return noTicketPaidRenderization;
+    }
     if (ticket?.status !== 'PAID') {
       return noTicketPaidRenderization;
     }
 
-    if (ticket?.ticketType.isRemote) {
+    if (ticket?.ticketType?.isRemote) {
       return isRemoteRenderization;
     }
-    // } else if (!includesHotel) {
-    //   setRenderization(noIncludesHotelChoiceRenderization);
-    // }
+
+    return isPresencialRenderization;
   }
 
-  return ticket && renderizationHandler();
+  return renderizationHandler();
 }
 
 const StyledTypography = styled(Typography)`
