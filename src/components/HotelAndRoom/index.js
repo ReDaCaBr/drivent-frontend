@@ -7,7 +7,6 @@ import useHotels from '../../hooks/api/useHotels';
 
 export default function HotelAndRoom() {
   const { ticket } = useTicket();
-  console.log(ticket?.status);
 
   const [selectedHotel, setSelectedHotel] = useState(0);
   const [hotels, setHotels ] = useState([]);
@@ -67,23 +66,21 @@ export default function HotelAndRoom() {
   }, [ticket]);
 
   function renderizationHandler() {
-    /*if (ticket?.status !== 'PAID') {
+    if (!ticket) {
+      return noTicketPaidRenderization;
+    }
+    if (ticket?.status !== 'PAID') {
       return noTicketPaidRenderization;
     }
 
-    if (ticket?.ticketType.isRemote) {
+    if (ticket?.ticketType?.isRemote) {
       return isRemoteRenderization;
     }
-    // } else if (!includesHotel) {
-    //   setRenderization(noIncludesHotelChoiceRenderization);
-    // } */
 
-    if (ticket?.status === 'PAID') {
-      return hotelsRenderization;
-    }
+    return hotelsRenderization;
   }
 
-  return ticket && renderizationHandler();
+  return renderizationHandler();
 }
 
 const StyledTypography = styled(Typography)`
