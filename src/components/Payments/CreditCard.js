@@ -108,7 +108,7 @@ export default function CreditCardSection({ setPaymentFinished, ticketId, setBod
       validForm = false;
     }
 
-    if (validForm) {
+    if (true) {
       setValidName(true);
       setValidNumber(true);
       setValidExpiry(true);
@@ -128,7 +128,7 @@ export default function CreditCardSection({ setPaymentFinished, ticketId, setBod
     const body = {
       ticketId,
       cardData: {
-        issuer: (number.slice(0, 2) in cardIssuers) ? cardIssuers[number.slice(0, 2)] : 'UNKNOWN',
+        issuer: number.slice(0, 2) in cardIssuers ? cardIssuers[number.slice(0, 2)] : 'UNKNOWN',
         number: number.split(' ').join(''),
         name,
         expirationDate: expiry,

@@ -4,13 +4,12 @@ import Rooms from '../Rooms';
 import useRooms from '../../hooks/api/useRooms';
 
 export default function Hotels() {
-  const { rooms } = useRooms();
-  console.log(rooms);
+  const { rooms } = useRooms(); //16 rooms
 
   return (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      <Rooms />
+      <Rooms rooms={rooms} />
     </>
   );
 }

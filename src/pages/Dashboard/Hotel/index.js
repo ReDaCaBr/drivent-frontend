@@ -1,5 +1,5 @@
-import HotelAndRoom from '../../../components/HotelAndRoom';
+import Hotels from '../../../components/Hotels';
 
 export default function Hotel() {
-  return <HotelAndRoom />;
+  return <Hotels />;
 }
