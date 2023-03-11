@@ -15,7 +15,7 @@ export default function CreditCardSection({ setPaymentFinished, ticketId, setBod
   const [validNumber, setValidNumber] = useState(null);
   const [validExpiry, setValidExpiry] = useState(null);
   const [validCVC, setValidCVC] = useState(null);
-
+  console.log(ticketId);
   function handleNumberAndExpiry(e, step, separator, setState) {
     const newNumber = e.target.value;
 

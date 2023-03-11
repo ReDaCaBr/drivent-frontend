@@ -1,11 +1,33 @@
 import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import useTicket from '../../hooks/api/useTicket';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import ChooseHotel from '../Hotels/ChooseHotel';
+import useHotels from '../../hooks/api/useHotels';
 
 export default function HotelAndRoom() {
   const { ticket } = useTicket();
-  console.log(ticket?.status);
+
+  const [selectedHotel, setSelectedHotel] = useState(0);
+  const [hotels, setHotels ] = useState([]);
+  const [rooms, setRooms] = useState([]);
+
+  const { getHotels } = useHotels();
+
+  const handleSelectHotel = (hotel) => {
+    if (hotel.id === selectedHotel) {
+      setSelectedHotel(0);
+      setRooms([]);
+    } else {
+      setSelectedHotel(hotel.id);
+      setRooms(hotel.rooms);
+    }
+  };
+
+  useEffect(async() => {
+    const data = await getHotels();
+    setHotels(data);
+  }, []);
 
   const noTicketPaidRenderization = (
     <>
@@ -29,24 +51,36 @@ export default function HotelAndRoom() {
     </>
   );
 
+  const hotelsRenderization = (
+    <>
+      <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
+      <ChooseHotel 
+        hotels={hotels}
+        selectedHotel={selectedHotel}
+        handleSelectHotel={handleSelectHotel}/>
+    </>
+  );
+
   useEffect(() => {
     renderizationHandler();
   }, [ticket]);
 
   function renderizationHandler() {
+    if (!ticket) {
+      return noTicketPaidRenderization;
+    }
     if (ticket?.status !== 'PAID') {
       return noTicketPaidRenderization;
     }
 
-    if (ticket?.ticketType.isRemote) {
+    if (ticket?.ticketType?.isRemote) {
       return isRemoteRenderization;
     }
-    // } else if (!includesHotel) {
-    //   setRenderization(noIncludesHotelChoiceRenderization);
-    // }
+
+    return hotelsRenderization;
   }
 
-  return ticket && renderizationHandler();
+  return renderizationHandler();
 }
 
 const StyledTypography = styled(Typography)`
@@ -68,4 +102,16 @@ const NoEnrollmentText = styled.span`
   font-size: 20px;
   line-height: 23px;
   text-align: center;
+`;
+const HotelBox = styled.div`
+  font-family: 'Roboto', sans-serif;
+`;
+const HotelText = styled.span`
+  width: 240px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+  text-align: start;
+  color: #8E8E8E;
 `;

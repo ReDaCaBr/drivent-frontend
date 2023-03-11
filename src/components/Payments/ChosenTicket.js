@@ -16,7 +16,7 @@ export default function ChosenTicket() {
     if (ticket) {
       setTicketId(ticket.id);
       setTicketPrice(ticket.TicketType.price);
-
+      
       if (ticket.TicketType.isRemote === true) {
         setTicketType(ticket.TicketType.name);
       } else if (ticket.TicketType.isRemote === false && ticket.TicketType.includesHotel === true) {
@@ -30,7 +30,7 @@ export default function ChosenTicket() {
         setPaymentFinished(true);
       } else {
         setPaymentFinished(false);
-      }
+      } 
     }
   }, [ticket, ticketPrice]);
 
