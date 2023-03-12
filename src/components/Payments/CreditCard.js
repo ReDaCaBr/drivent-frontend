@@ -123,8 +123,6 @@ export default function CreditCardSection({ setPaymentFinished, ticketId, setBod
       if (state === null || state === false) return;
     }
 
-    setPaymentFinished(true);
-
     const body = {
       ticketId,
       cardData: {
@@ -137,6 +135,7 @@ export default function CreditCardSection({ setPaymentFinished, ticketId, setBod
     };
 
     setBody(body);
+    setPaymentFinished(true);
   }
 
   useEffect(submitPayment, [validCVC, validExpiry, validName, validNumber]);

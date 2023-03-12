@@ -1,11 +1,20 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
-import BoxChoice from './BoxChoice.js';
 import { IoCheckmarkCircleSharp } from 'react-icons/io5';
-import usePaymentProcess from '../../hooks/api/usePaymentProcess.js';
+import axios from 'axios';
+import useToken from '../../hooks/useToken.js';
 
 export default function PaymentConfirmed({ body }) {
-  usePaymentProcess(body);
+  const url = process.env.REACT_APP_API_BASE_URL + '/payments/process';
+  const token = useToken();
+  const config =  { headers: { 'Authorization': 'Bearer ' + token } };
+
+  useEffect(() => {
+    axios
+      .post(url, body, config)
+      .then(console.log)
+      .catch(console.log);
+  }, [body]);
 
   return (
     <>
