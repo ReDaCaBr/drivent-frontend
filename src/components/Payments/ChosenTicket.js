@@ -26,7 +26,7 @@ export default function ChosenTicket() {
         setTicketType(ticket.TicketType.name);
       }
 
-      if (ticket.TicketType.status === 'PAID') {
+      if (ticket.status === 'PAID') {
         setPaymentFinished(true);
       } else {
         setPaymentFinished(false);

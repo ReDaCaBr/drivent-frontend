@@ -7,6 +7,7 @@ import HotelOptions from '../Payments/HotelOptions';
 import ChosenTicket from '../Payments/ChosenTicket';
 import useTicketTypes from '../../hooks/api/useTicketTypes';
 import UserContext from '../../contexts/UserContext';
+import useTicket from '../../hooks/api/useTicket';
 
 export default function TicketAndPayment() {
   const [renderization, setRenderization] = useState(<></>);
@@ -16,6 +17,7 @@ export default function TicketAndPayment() {
   const { ticketTypes } = useTicketTypes();
   const { userData } = useContext(UserContext);
   const token = userData.token.toString();
+  const { ticket } = useTicket();
 
   const noEnrollmentRenderization = (
     <>
@@ -62,14 +64,14 @@ export default function TicketAndPayment() {
 
   useEffect(() => {
     renderizationHandler(enrollment);
-  }, [enrollment, isRemote, includesHotel, ticketTypes]);
+  }, [enrollment, isRemote, includesHotel, ticketTypes, ticket]);
 
   function renderizationHandler(enrollment) {
     if (!enrollment) {
       setRenderization(noEnrollmentRenderization);
-    } else if (!isRemote) {
+    } else if (!isRemote && !ticket) {
       setRenderization(noIsRemoteChoiceRenderization);
-    } else if (!includesHotel) {
+    } else if (!includesHotel && !ticket) {
       setRenderization(noIncludesHotelChoiceRenderization);
     } else {
       setRenderization(paymentRenderization);

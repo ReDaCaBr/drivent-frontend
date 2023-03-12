@@ -15,7 +15,6 @@ export default function CreditCardSection({ setPaymentFinished, ticketId, setBod
   const [validNumber, setValidNumber] = useState(null);
   const [validExpiry, setValidExpiry] = useState(null);
   const [validCVC, setValidCVC] = useState(null);
-
   function handleNumberAndExpiry(e, step, separator, setState) {
     const newNumber = e.target.value;
 
@@ -126,7 +125,7 @@ export default function CreditCardSection({ setPaymentFinished, ticketId, setBod
     const body = {
       ticketId,
       cardData: {
-        issuer: (number.slice(0, 2) in cardIssuers) ? cardIssuers[number.slice(0, 2)] : 'UNKNOWN',
+        issuer: number.slice(0, 2) in cardIssuers ? cardIssuers[number.slice(0, 2)] : 'UNKNOWN',
         number: number.split(' ').join(''),
         name,
         expirationDate: expiry,
