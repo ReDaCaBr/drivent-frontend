@@ -12,7 +12,6 @@ export default function HotelAndRoom() {
   const [hotels, setHotels] = useState([]);
   const [rooms, setRooms] = useState([]);
   const type = ticket?.TicketType;
-  console.log(type);
   const { getHotels } = useHotels();
 
   const handleSelectHotel = (hotel) => {
