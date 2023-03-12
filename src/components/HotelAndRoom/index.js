@@ -9,9 +9,10 @@ export default function HotelAndRoom() {
   const { ticket } = useTicket();
 
   const [selectedHotel, setSelectedHotel] = useState(0);
-  const [hotels, setHotels ] = useState([]);
+  const [hotels, setHotels] = useState([]);
   const [rooms, setRooms] = useState([]);
-
+  const type = ticket?.TicketType;
+  console.log(type);
   const { getHotels } = useHotels();
 
   const handleSelectHotel = (hotel) => {
@@ -23,11 +24,6 @@ export default function HotelAndRoom() {
       setRooms(hotel.rooms);
     }
   };
-
-  useEffect(async() => {
-    const data = await getHotels();
-    setHotels(data);
-  }, []);
 
   const noTicketPaidRenderization = (
     <>
@@ -54,14 +50,14 @@ export default function HotelAndRoom() {
   const hotelsRenderization = (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      <ChooseHotel 
-        hotels={hotels}
-        selectedHotel={selectedHotel}
-        handleSelectHotel={handleSelectHotel}/>
+      <ChooseHotel hotels={hotels} selectedHotel={selectedHotel} handleSelectHotel={handleSelectHotel} />
     </>
   );
 
-  useEffect(() => {
+  // eslint-disable-next-line space-before-function-paren
+  useEffect(async () => {
+    const data = await getHotels();
+    setHotels(data);
     renderizationHandler();
   }, [ticket]);
 
@@ -73,14 +69,14 @@ export default function HotelAndRoom() {
       return noTicketPaidRenderization;
     }
 
-    if (ticket?.ticketType?.isRemote) {
+    if (type.isRemote) {
       return isRemoteRenderization;
     }
 
     return hotelsRenderization;
   }
 
-  return renderizationHandler();
+  return hotels && renderizationHandler();
 }
 
 const StyledTypography = styled(Typography)`
@@ -113,5 +109,5 @@ const HotelText = styled.span`
   font-size: 20px;
   line-height: 23px;
   text-align: start;
-  color: #8E8E8E;
+  color: #8e8e8e;
 `;
