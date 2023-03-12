@@ -39,8 +39,8 @@ export default function ChosenTicket() {
       <Container>
         <PageSubTitle>Ingresso escolhido</PageSubTitle>
         <TicketSummaryBox>
-          <TicketType>{ticketPrice}</TicketType>
-          <TicketPrice>{ticketType}</TicketPrice>
+          <TicketType>{ticketType}</TicketType>
+          <TicketPrice>R$ {ticketPrice}</TicketPrice>
         </TicketSummaryBox>
         {paymentFinished === false ? (
           <CreditCardSection setPaymentFinished={setPaymentFinished} ticketId={ticketId} setBody={setBody} />
