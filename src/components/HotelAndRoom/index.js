@@ -12,7 +12,6 @@ export default function HotelAndRoom() {
   const [selectedHotel, setSelectedHotel] = useState(0);
   const [hotels, setHotels] = useState([]);
   const [rooms, setRooms] = useState([]);
-  const [finalizedChoices, setFinalizedChoices] = useState(false);
   const type = ticket?.TicketType;
   const { getHotels } = useHotels();
 
@@ -51,13 +50,7 @@ export default function HotelAndRoom() {
   const hotelsRenderization = (
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
-      <ChooseHotel hotels={hotels} selectedHotel={selectedHotel} handleSelectHotel={handleSelectHotel} />
-    </>
-  );
-
-  const bookingRenderization = (
-    <>
-      <BookedHotel/>
+      <ChooseHotel hotels={hotels} selectedHotel={selectedHotel} handleSelectHotel={handleSelectHotel} setSelectedHotel={setSelectedHotel} />
     </>
   );
 

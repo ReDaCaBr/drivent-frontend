@@ -5,12 +5,12 @@ import Button from '../Form/Button';
 import useToken from '../../hooks/useToken';
 import axios from 'axios';
 
-export default function BookedHotel() {
+export default function BookedHotel({ setFinalizedChoices, setSelectedHotel }) {
   const token = useToken();
   const url = process.env.REACT_APP_API_BASE_URL + '/booking';
   const config = { headers: { 'Authorization': 'Bearer ' + token } };
   const [selectedRoom, setSelectedRoom] = useState({});
-  const [selectedHotel, setSelectedHotel] = useState({});
+  const [hotel, setHotel] = useState({});
   const [numberOfRoommates, setNumberOfRoommates] = useState(0);
 
   useEffect(() => {
@@ -18,23 +18,23 @@ export default function BookedHotel() {
       .get(url, config)
       .then(({ data }) => {
         setSelectedRoom(data.Room);
-        setSelectedHotel(data.Room.Hotel);
+        setHotel(data.Room.Hotel);
         setNumberOfRoommates(data.Room.Booking.length - 1);
       })
       .catch(console.log);
   }, []);
 
   function changeBooking() {
-
+    setFinalizedChoices(false);
+    setSelectedHotel(0);
   }
 
   return (
     <HotelSelectedContainer>
-      <h1>Escolha de hotel e quarto</h1>
       <h2>Você já escolheu seu quarto:</h2>
       <div>
-        <img src={selectedHotel.image} alt='Seu hotel'/>
-        <span>{selectedHotel.name}</span>
+        <img src={hotel.image} alt='Seu hotel'/>
+        <span>{hotel.name}</span>
         <span>Quarto reservado</span>
         <span>{selectedRoom.name} ({['Single', 'Double', 'Triple'][selectedRoom.capacity - 1]})</span>
         <span>Pessoas no seu quarto</span>
