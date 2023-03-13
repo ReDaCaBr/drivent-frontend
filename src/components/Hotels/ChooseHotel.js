@@ -1,7 +1,23 @@
+import { useState, useEffect } from 'react';
+import useRooms from '../../hooks/api/useRooms';
+import useBooking from '../../hooks/api/useBooking';
 import styled from 'styled-components';
 import Hotel from './HotelCard';
+import Rooms from '../Rooms/index';
 
 export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHotel }) {
+  const { rooms } = useRooms(); //16 rooms
+  const { getBooking } = useBooking();
+  const [reload, setReload] = useState(0);
+  const [booking, setBooking] = useState({});
+  const [isChangeRoom, setIsChangeRoom] = useState(false);
+  useEffect(() => {
+    const promisse = getBooking();
+    promisse.then((p) => {
+      if (p) setBooking(p);
+    });
+  }, [reload]);
+  //TODO mudar hotelId
   return (
     <>
       <MenuHeader>Primeiro, escolha seu hotel</MenuHeader>
@@ -22,6 +38,19 @@ export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHot
           <></>
         )}
       </HotelBrowser>
+      {!selectedHotel ? (
+        ''
+      ) : (
+        <Rooms
+          listOfRooms={rooms}
+          hotelId={selectedHotel}
+          bookingId={booking?.id}
+          reload={reload}
+          setReload={setReload}
+          isChangeRoom={isChangeRoom}
+          setIsChangeRoom={setIsChangeRoom}
+        />
+      )}
     </>
   );
 }

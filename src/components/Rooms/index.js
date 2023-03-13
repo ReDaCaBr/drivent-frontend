@@ -75,7 +75,8 @@ export const PageSubTitle = styled.div`
   font-size: 20px;
   line-height: 23px;
   color: #8e8e8e;
-  margin-bottom: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   button {
     outline: none;
     border: none;
