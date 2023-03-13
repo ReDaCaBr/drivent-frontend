@@ -4,6 +4,7 @@ import useTicket from '../../hooks/api/useTicket';
 import { useEffect, useState } from 'react';
 import ChooseHotel from '../Hotels/ChooseHotel';
 import useHotels from '../../hooks/api/useHotels';
+import BookedHotel from '../Hotels/bookedHotel';
 
 export default function HotelAndRoom() {
   const { ticket } = useTicket();
@@ -11,6 +12,7 @@ export default function HotelAndRoom() {
   const [selectedHotel, setSelectedHotel] = useState(0);
   const [hotels, setHotels] = useState([]);
   const [rooms, setRooms] = useState([]);
+  const [finalizedChoices, setFinalizedChoices] = useState(false);
   const type = ticket?.TicketType;
   const { getHotels } = useHotels();
 
@@ -53,6 +55,12 @@ export default function HotelAndRoom() {
     </>
   );
 
+  const bookingRenderization = (
+    <>
+      <BookedHotel/>
+    </>
+  );
+
   // eslint-disable-next-line space-before-function-paren
   useEffect(async () => {
     const data = await getHotels();
@@ -75,7 +83,8 @@ export default function HotelAndRoom() {
     return hotelsRenderization;
   }
 
-  return hotels && renderizationHandler();
+  // return hotels && renderizationHandler();
+  return bookingRenderization;
 }
 
 const StyledTypography = styled(Typography)`

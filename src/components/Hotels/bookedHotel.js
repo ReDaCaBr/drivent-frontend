@@ -1,22 +1,37 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
-import Button from '../../../components/Form/Button';
+import Button from '../Form/Button';
+import useToken from '../../hooks/useToken';
+import axios from 'axios';
 
-export default function bookedHotel() {
-  const [hotelName, setHotelName] = useState('');
-  const [hotelImage, setHotelImage] = useState('');
-  const [roomName, setRoomName] = useState('');
-  const [numberOfOtherPeople, setNumberOfOtherPeople] = useState(0);
+export default function BookedHotel() {
+  const token = useToken();
+  const url = process.env.REACT_APP_API_BASE_URL + '/booking';
+  const config = { headers: { 'Authorization': 'Bearer ' + token } };
+  const [selectedRoom, setSelectedRoom] = useState({});
+  const [selectedHotel, setSelectedHotel] = useState({});
+  console.log(selectedRoom);
+
+  useEffect(() => {
+    axios
+      .get(url, config)
+      .then(({ data }) => {
+        setSelectedRoom(data.Room);
+        setSelectedHotel(data.Room.Hotel);
+      })
+      .catch(console.log);
+  }, []);
 
   return (
     <HotelSelectedContainer>
       <h1>Escolha de hotel e quarto</h1>
       <h2>Você já escolheu seu quarto:</h2>
       <div>
-        <img src='https://www.hotelpremiumcampinas.com.br/wp-content/uploads/2021/08/fachada-scaled.jpg' alt='Seu hotel'/>
-        <span>Driven Resort</span>
+        <img src={selectedHotel.image} alt='Seu hotel'/>
+        <span>{selectedHotel.name}</span>
         <span>Quarto reservado</span>
-        <span>101 (Double)</span>
+        <span>{selectedRoom.name} ({['Single', 'Double', 'Triple'][selectedRoom.capacity]})</span>
         <span>Pessoas no seu quarto</span>
         <span>Você e mais 1</span>
       </div>
