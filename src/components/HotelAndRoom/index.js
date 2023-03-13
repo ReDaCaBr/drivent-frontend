@@ -83,8 +83,7 @@ export default function HotelAndRoom() {
     return hotelsRenderization;
   }
 
-  // return hotels && renderizationHandler();
-  return bookingRenderization;
+  return hotels && renderizationHandler();
 }
 
 const StyledTypography = styled(Typography)`

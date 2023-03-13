@@ -11,7 +11,7 @@ export default function BookedHotel() {
   const config = { headers: { 'Authorization': 'Bearer ' + token } };
   const [selectedRoom, setSelectedRoom] = useState({});
   const [selectedHotel, setSelectedHotel] = useState({});
-  console.log(selectedRoom);
+  const [numberOfRoommates, setNumberOfRoommates] = useState(0);
 
   useEffect(() => {
     axios
@@ -19,9 +19,14 @@ export default function BookedHotel() {
       .then(({ data }) => {
         setSelectedRoom(data.Room);
         setSelectedHotel(data.Room.Hotel);
+        setNumberOfRoommates(data.Room.Booking.length - 1);
       })
       .catch(console.log);
   }, []);
+
+  function changeBooking() {
+
+  }
 
   return (
     <HotelSelectedContainer>
@@ -31,11 +36,11 @@ export default function BookedHotel() {
         <img src={selectedHotel.image} alt='Seu hotel'/>
         <span>{selectedHotel.name}</span>
         <span>Quarto reservado</span>
-        <span>{selectedRoom.name} ({['Single', 'Double', 'Triple'][selectedRoom.capacity]})</span>
+        <span>{selectedRoom.name} ({['Single', 'Double', 'Triple'][selectedRoom.capacity - 1]})</span>
         <span>Pessoas no seu quarto</span>
-        <span>Você e mais 1</span>
+        <span>Você e mais {numberOfRoommates}</span>
       </div>
-      <Button>TROCAR DE QUARTO</Button>
+      <Button onClick={changeBooking}>TROCAR DE QUARTO</Button>
     </HotelSelectedContainer>
   );
 }
