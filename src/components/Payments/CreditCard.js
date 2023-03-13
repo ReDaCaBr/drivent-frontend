@@ -107,7 +107,7 @@ export default function CreditCardSection({ setPaymentFinished, ticketId, setBod
       validForm = false;
     }
 
-    if (true) {
+    if (validForm) {
       setValidName(true);
       setValidNumber(true);
       setValidExpiry(true);
