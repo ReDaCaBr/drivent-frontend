@@ -16,7 +16,7 @@ export default function ChosenTicket() {
     if (ticket) {
       setTicketId(ticket.id);
       setTicketPrice(ticket.TicketType.price);
-      
+
       if (ticket.TicketType.isRemote === true) {
         setTicketType(ticket.TicketType.name);
       } else if (ticket.TicketType.isRemote === false && ticket.TicketType.includesHotel === true) {
@@ -26,11 +26,11 @@ export default function ChosenTicket() {
         setTicketType(ticket.TicketType.name);
       }
 
-      if (ticket.TicketType.status === 'PAID') {
+      if (ticket.status === 'PAID') {
         setPaymentFinished(true);
       } else {
         setPaymentFinished(false);
-      } 
+      }
     }
   }, [ticket, ticketPrice]);
 
@@ -39,8 +39,8 @@ export default function ChosenTicket() {
       <Container>
         <PageSubTitle>Ingresso escolhido</PageSubTitle>
         <TicketSummaryBox>
-          <TicketType>{ticketPrice}</TicketType>
-          <TicketPrice>{ticketType}</TicketPrice>
+          <TicketType>{ticketType}</TicketType>
+          <TicketPrice>R$ {ticketPrice}</TicketPrice>
         </TicketSummaryBox>
         {paymentFinished === false ? (
           <CreditCardSection setPaymentFinished={setPaymentFinished} ticketId={ticketId} setBody={setBody} />
