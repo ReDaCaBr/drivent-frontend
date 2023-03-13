@@ -23,7 +23,7 @@ export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHot
       <MenuHeader>Primeiro, escolha seu hotel</MenuHeader>
       <HotelBrowser>
         {hotels ? (
-          hotels.map((hotel, index) => (
+          hotels?.map((hotel, index) => (
             <Hotel
               key={index}
               index={index}
