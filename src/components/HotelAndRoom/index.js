@@ -4,6 +4,7 @@ import useTicket from '../../hooks/api/useTicket';
 import { useEffect, useState } from 'react';
 import ChooseHotel from '../Hotels/ChooseHotel';
 import useHotels from '../../hooks/api/useHotels';
+import BookedHotel from '../Hotels/bookedHotel';
 
 export default function HotelAndRoom() {
   const { ticket } = useTicket();
@@ -11,6 +12,7 @@ export default function HotelAndRoom() {
   const [selectedHotel, setSelectedHotel] = useState(0);
   const [hotels, setHotels] = useState([]);
   const [rooms, setRooms] = useState([]);
+  const [finalizedChoices, setFinalizedChoices] = useState(false);
   const type = ticket?.TicketType;
   const { getHotels } = useHotels();
 
@@ -50,6 +52,12 @@ export default function HotelAndRoom() {
     <>
       <StyledTypography variant="h4">Escolha de hotel e quarto</StyledTypography>
       <ChooseHotel hotels={hotels} selectedHotel={selectedHotel} handleSelectHotel={handleSelectHotel} />
+    </>
+  );
+
+  const bookingRenderization = (
+    <>
+      <BookedHotel/>
     </>
   );
 
