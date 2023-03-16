@@ -53,22 +53,28 @@ export default function Hotel({ index, name, image, rooms, selected, handleSelec
   const numberAvailableSpaces = getNumberOfAvailableSpaces(rooms);
 
   return (
-    <Container selected={selected} index={index} onClick={handleSelectHotel}>
-      <img src={image} alt="hotel" />
-      <div className="name">{name}</div>
-      <div className="info">
-        <div className="accommodation">
-          <h3>Tipos de acomodação</h3>
-          <p>{accommodationType}</p>
+    <hotelPage>
+      <Container selected={selected} index={index} onClick={handleSelectHotel}>
+        <img src={image} alt="hotel" />
+        <div className="name">{name}</div>
+        <div className="info">
+          <div className="accommodation">
+            <h3>Tipos de acomodação</h3>
+            <p>{accommodationType}</p>
+          </div>
+          <div className="availableRooms">
+            <h3>Vagas Disponíveis</h3>
+            <p>{numberAvailableSpaces}</p>
+          </div>
         </div>
-        <div className="availableRooms">
-          <h3>Vagas Disponíveis</h3>
-          <p>{numberAvailableSpaces}</p>
-        </div>
-      </div>
-    </Container>
+      </Container>
+    </hotelPage>
   );
 }
+
+export const hotelPage = styled.div`
+  display: flex;
+`;
 
 export const Container = styled.div`
   background-color: #ebebeb;
@@ -80,7 +86,7 @@ export const Container = styled.div`
   align-items: flex-start;
   padding: 14px;
   cursor: pointer;
-  
+
   &:hover {
     background-color: ${(props) => (props.selected ? '#FFEED2' : '#ccc')};
     transform: scale(1.02);
@@ -105,7 +111,7 @@ export const Container = styled.div`
     flex-direction: column;
     gap: 14px;
     font-size: 12px;
-    
+
     .accommodation,
     .availableRooms {
       h3 {

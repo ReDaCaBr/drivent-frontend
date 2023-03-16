@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Hotel from './HotelCard';
 import Rooms from '../Rooms/index';
 import BookedHotel from './bookedHotel';
+import useHotelById from '../../hooks/api/useHotelById';
 
 export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHotel, setSelectedHotel }) {
   const { rooms } = useRooms(); //16 rooms
@@ -13,14 +14,22 @@ export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHot
   const [booking, setBooking] = useState({});
   const [isChangeRoom, setIsChangeRoom] = useState(false);
   const [finalizedChoices, setFinalizedChoices] = useState(false);
+  const { getHotelById } = useHotelById(selectedHotel);
+  const [choosedHotel, setChoosedHotel] = useState([]);
+
   useEffect(() => {
     const promisse = getBooking();
     promisse.then((p) => {
       if (p) setBooking(p);
     });
   }, [reload]);
-  //TODO mudar hotelId
 
+  useEffect(() => {
+    const promisse = getHotelById(selectedHotel);
+    promisse.then((p) => {
+      if (p) setChoosedHotel(p);
+    });
+  }, [selectedHotel]);
   const hotelsAndRoomsRenderization = (
     <>
       <MenuHeader>Primeiro, escolha seu hotel</MenuHeader>
@@ -53,16 +62,14 @@ export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHot
           isChangeRoom={isChangeRoom}
           setIsChangeRoom={setIsChangeRoom}
           setFinalizedChoices={setFinalizedChoices}
+          choosedHotel={choosedHotel}
         />
       )}
     </>
   );
 
   const summaryRenderization = (
-    <BookedHotel
-      setFinalizedChoices={setFinalizedChoices}
-      setSelectedHotel={setSelectedHotel}
-    />
+    <BookedHotel setFinalizedChoices={setFinalizedChoices} setSelectedHotel={setSelectedHotel} />
   );
 
   if (finalizedChoices === false) {
