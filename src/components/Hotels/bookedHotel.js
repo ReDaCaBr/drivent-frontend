@@ -30,18 +30,24 @@ export default function BookedHotel({ setFinalizedChoices, setSelectedHotel }) {
   }
 
   return (
-    <HotelSelectedContainer>
-      <h2>Você já escolheu seu quarto:</h2>
-      <div>
-        <img src={hotel.image} alt='Seu hotel'/>
-        <span>{hotel.name}</span>
-        <span>Quarto reservado</span>
-        <span>{selectedRoom.name} ({['Single', 'Double', 'Triple'][selectedRoom.capacity - 1]})</span>
-        <span>Pessoas no seu quarto</span>
-        <span>Você e mais {numberOfRoommates}</span>
-      </div>
-      <Button onClick={changeBooking}>TROCAR DE QUARTO</Button>
-    </HotelSelectedContainer>
+    <>
+      {('id' in selectedRoom) ? (
+        <HotelSelectedContainer>
+          <h2>Você já escolheu seu quarto:</h2>
+          <div>
+            <img src={hotel.image} alt='Seu hotel'/>
+            <span>{hotel.name}</span>
+            <span>Quarto reservado</span>
+            <span>{selectedRoom.name} ({['Single', 'Double', 'Triple'][selectedRoom.capacity - 1]})</span>
+            <span>Pessoas no seu quarto</span>
+            <span>Você e mais {numberOfRoommates}</span>
+          </div>
+          <Button onClick={changeBooking}>TROCAR DE QUARTO</Button>
+        </HotelSelectedContainer>
+      ) : (
+        <></>
+      )}
+    </>
   );
 }
 

@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import Hotel from './HotelCard';
 import Rooms from '../Rooms/index';
 import BookedHotel from './bookedHotel';
+import axios from 'axios';
+import useToken from '../../hooks/useToken';
 
 export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHotel, setSelectedHotel }) {
   const { rooms } = useRooms(); //16 rooms
@@ -13,6 +15,10 @@ export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHot
   const [booking, setBooking] = useState({});
   const [isChangeRoom, setIsChangeRoom] = useState(false);
   const [finalizedChoices, setFinalizedChoices] = useState(false);
+  const token = useToken();
+  const url = process.env.REACT_APP_API_BASE_URL + '/booking';
+  const config = { headers: { 'Authorization': 'Bearer ' + token } };
+  
   useEffect(() => {
     const promisse = getBooking();
     promisse.then((p) => {
@@ -20,6 +26,13 @@ export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHot
     });
   }, [reload]);
   //TODO mudar hotelId
+
+  useEffect(() => {
+    axios
+      .get(url, config)
+      .then(() => setFinalizedChoices(true))
+      .catch(console.log);
+  }, []);
 
   const hotelsAndRoomsRenderization = (
     <>

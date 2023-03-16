@@ -32,6 +32,7 @@ export default function Rooms({ listOfRooms, hotelId, bookingId, reload, setRelo
         toast('Informações alteradas com sucesso!');
         if (UpdateBookingError) throw UpdateBookingError;
         setReload((reload) => reload + 1);
+        setFinalizedChoices(true);
         return;
       }
       const { bookingError } = await createBooking(selectedRoomId);
