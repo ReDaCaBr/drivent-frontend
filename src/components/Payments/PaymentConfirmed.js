@@ -10,6 +10,7 @@ export default function PaymentConfirmed({ body }) {
   const config =  { headers: { 'Authorization': 'Bearer ' + token } };
 
   useEffect(() => {
+    if (Object.keys(body).length === 0) return;
     axios
       .post(url, body, config)
       .then(console.log)

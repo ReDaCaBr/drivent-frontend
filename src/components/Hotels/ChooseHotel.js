@@ -5,8 +5,6 @@ import styled from 'styled-components';
 import Hotel from './HotelCard';
 import Rooms from '../Rooms/index';
 import BookedHotel from './bookedHotel';
-import axios from 'axios';
-import useToken from '../../hooks/useToken';
 import useHotelById from '../../hooks/api/useHotelById';
 
 export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHotel, setSelectedHotel }) {
