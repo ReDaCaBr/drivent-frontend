@@ -7,6 +7,7 @@ import Rooms from '../Rooms/index';
 import BookedHotel from './bookedHotel';
 import axios from 'axios';
 import useToken from '../../hooks/useToken';
+import useHotelById from '../../hooks/api/useHotelById';
 
 export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHotel, setSelectedHotel }) {
   const { rooms } = useRooms(); //16 rooms
@@ -15,24 +16,23 @@ export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHot
   const [booking, setBooking] = useState({});
   const [isChangeRoom, setIsChangeRoom] = useState(false);
   const [finalizedChoices, setFinalizedChoices] = useState(false);
-  const token = useToken();
-  const url = process.env.REACT_APP_API_BASE_URL + '/booking';
-  const config = { headers: { 'Authorization': 'Bearer ' + token } };
-  
+  const { getHotelById } = useHotelById(selectedHotel);
+  const [choosedHotel, setChoosedHotel] = useState([]);
+
   useEffect(() => {
     const promisse = getBooking();
     promisse.then((p) => {
       if (p) setBooking(p);
+      setFinalizedChoices(true);
     });
   }, [reload]);
-  //TODO mudar hotelId
 
   useEffect(() => {
-    axios
-      .get(url, config)
-      .then(() => setFinalizedChoices(true))
-      .catch(console.log);
-  }, []);
+    const promisse = getHotelById(selectedHotel);
+    promisse.then((p) => {
+      if (p) setChoosedHotel(p);
+    });
+  }, [selectedHotel]);
 
   const hotelsAndRoomsRenderization = (
     <>
@@ -66,16 +66,14 @@ export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHot
           isChangeRoom={isChangeRoom}
           setIsChangeRoom={setIsChangeRoom}
           setFinalizedChoices={setFinalizedChoices}
+          choosedHotel={choosedHotel}
         />
       )}
     </>
   );
 
   const summaryRenderization = (
-    <BookedHotel
-      setFinalizedChoices={setFinalizedChoices}
-      setSelectedHotel={setSelectedHotel}
-    />
+    <BookedHotel setFinalizedChoices={setFinalizedChoices} setSelectedHotel={setSelectedHotel} />
   );
 
   if (finalizedChoices === false) {

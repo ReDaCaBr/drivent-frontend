@@ -7,13 +7,23 @@ import useCreateBooking from '../../hooks/api/useCreateBooking';
 import useUpdateBooking from '../../hooks/api/useUpdateBooking';
 import { toast } from 'react-toastify';
 
-export default function Rooms({ listOfRooms, hotelId, bookingId, reload, setReload, isChangeRoom, setIsChangeRoom, setFinalizedChoices }) {
+export default function Rooms({
+  listOfRooms,
+  hotelId,
+  bookingId,
+  reload,
+  setReload,
+  isChangeRoom,
+  setIsChangeRoom,
+  setFinalizedChoices,
+  choosedHotel,
+}) {
   const selectedId = useRef(0);
   const [selectedRoomId, setSelectedRoomId] = useState(0);
   const { updateBooking } = useUpdateBooking();
   const { createBooking } = useCreateBooking();
   const { getRooms } = useRooms(hotelId);
-  const [rooms, setRooms] = useState(listOfRooms);
+  const [rooms, setRooms] = useState(choosedHotel.Rooms);
 
   function handleClick(roomId) {
     selectedId.current = roomId;
@@ -53,7 +63,7 @@ export default function Rooms({ listOfRooms, hotelId, bookingId, reload, setRelo
             //prettier-ignore
             name={room.name}
             capacity={room.capacity}
-            bookings={1} //TODO pegar a contagem dos bookings do back-end
+            bookings={room._count.Booking} //TODO pegar a contagem dos bookings do back-end
             roomId={room.id}
             handleClick={handleClick}
             selectedId={selectedId.current}
@@ -79,6 +89,8 @@ export const PageSubTitle = styled.div`
   color: #8e8e8e;
   margin-top: 10px;
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
   button {
     outline: none;
     border: none;
