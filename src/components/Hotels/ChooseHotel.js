@@ -21,6 +21,7 @@ export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHot
     const promisse = getBooking();
     promisse.then((p) => {
       if (p) setBooking(p);
+      setFinalizedChoices(true);
     });
   }, [reload]);
 
@@ -30,6 +31,7 @@ export default function ChooseHotelMenu({ hotels, selectedHotel, handleSelectHot
       if (p) setChoosedHotel(p);
     });
   }, [selectedHotel]);
+
   const hotelsAndRoomsRenderization = (
     <>
       <MenuHeader>Primeiro, escolha seu hotel</MenuHeader>
