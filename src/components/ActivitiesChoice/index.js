@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import useTicket from '../../hooks/api/useTicket';
 import { useEffect } from 'react';
+import ChooseDate from '../Activities/ChooseDate';
 
 export default function ActivitiesChoice() {
   const { ticket } = useTicket();
@@ -32,6 +33,7 @@ export default function ActivitiesChoice() {
   const activitiesRenderization = (
     <>
       <StyledTypography variant="h4">Escolha de atividades</StyledTypography>
+      <ChooseDate />
     </>
   );
 
