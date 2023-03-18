@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import useActivitiesDates from '../../hooks/api/useActivitiesDates';
 
 function formatDateContent(date) {
   const dateArray = date.split(',');
@@ -22,11 +20,7 @@ function Date({ date, index, selected, handleSelectDate }) {
   );
 }
 
-export default function ChooseDate() {
-  const [selectedDate, setSelectedDate] = useState('');
-  const { activitiesDates } = useActivitiesDates();
-  const dates = [...new Set(activitiesDates)];
-
+export default function ChooseDate({ dates, selectedDate, setSelectedDate }) {
   const handleSelectDate = (date) => {
     if (date === selectedDate) {
       setSelectedDate('');
@@ -37,7 +31,7 @@ export default function ChooseDate() {
 
   return (
     <>
-      <MenuHeader>Primeiro, filtre pelo dia do evento: </MenuHeader>
+      {selectedDate === '' ? <MenuHeader>Primeiro, filtre pelo dia do evento</MenuHeader> : <></>}
       <DateBrowser>
         {dates.map((date, index) => (
           <Date
