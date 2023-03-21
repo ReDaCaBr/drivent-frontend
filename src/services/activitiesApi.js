@@ -29,3 +29,12 @@ export async function getNumberOfUsersByActivity(token, activityId) {
   console.log(response.data);
   return response.data;
 }
+
+export async function getRegistrations(token) {
+  const response = await api.get('/activities', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+}
